@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>말씀 성경</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #faf8f3;
+  --bg2:      #f3ede2;
+  --bg3:      #e8e0d0;
+  --surface:  #ffffff;
+  --brown:    #6b4f2e;
+  --brown2:   #4a3318;
+  --amber:    #c07830;
+  --amber-l:  #f0d4a8;
+  --amber-ll: #fdf5e8;
+  --text:     #2a2018;
+  --text2:    #6e5c44;
+  --text3:    #a89880;
+  --border:   #ddd5c2;
+  --border2:  #ede7d8;
+  --sh:       0 2px 10px rgba(80,55,20,.07);
+  --sh2:      0 4px 20px rgba(80,55,20,.12);
+  --r:        13px;
+  --tr:       .2s cubic-bezier(.4,0,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* ═══ 헤더 ═══ */
+.hdr{
+  position:sticky;top:0;z-index:200;
+  background:rgba(250,248,243,.95);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1.5px solid var(--border);
+  height:56px;display:flex;align-items:center;padding:0 14px;gap:8px;
+}
+.hdr-btn{
+  width:36px;height:36px;border-radius:9px;border:1.5px solid var(--border);
+  background:var(--surface);color:var(--text2);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:15px;
+  transition:var(--tr);flex-shrink:0;
+}
+.hdr-btn:hover{background:var(--amber-ll);border-color:var(--amber);color:var(--amber)}
+.hdr-btn:disabled{opacity:.3;cursor:default;pointer-events:none}
+.hdr-title{
+  flex:1;text-align:center;
+  font-family:'Noto Serif KR',serif;font-size:17px;font-weight:700;
+  color:var(--brown2);letter-spacing:1px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.hdr-title.logo-mode{letter-spacing:3px;font-size:20px}
+
+/* ─ 읽기 헤더용 AI 요약 버튼 ─ */
+.hdr-ai-btn{
+  display:flex;align-items:center;gap:5px;
+  padding:6px 11px;border-radius:18px;
+  background:linear-gradient(135deg,#fdf0d8,#fbe3b8);
+  border:1.5px solid var(--amber);
+  color:var(--amber);font-size:11px;font-weight:700;
+  cursor:pointer;transition:var(--tr);white-space:nowrap;flex-shrink:0;
+}
+.hdr-ai-btn:hover{background:var(--amber);color:#fff}
+
+/* ═══ 탭바 ═══ */
+.tabbar{
+  display:flex;background:var(--surface);
+  border-bottom:1.5px solid var(--border);padding:0 8px;
+  position:sticky;top:56px;z-index:190;
+}
+.tab{
+  flex:1;padding:12px 2px 10px;border:none;background:none;
+  color:var(--text3);cursor:pointer;
+  font-family:'Noto Sans KR',sans-serif;font-size:12px;font-weight:500;
+  border-bottom:2.5px solid transparent;transition:var(--tr);
+}
+.tab.on{color:var(--brown);border-bottom-color:var(--amber)}
+
+/* ═══ 페이지 ═══ */
+.page{display:none}.page.on{display:block}
+
+/* ═══ 메인 화면 (홈) ═══ */
+.home-hero{
+  background:linear-gradient(160deg,#fff8ee 0%,#f5e8d0 100%);
+  padding:32px 20px 24px;
+  border-bottom:1.5px solid var(--border2);
+  text-align:center;
+}
+.home-cross{font-size:32px;margin-bottom:8px;opacity:.7}
+.home-title{font-family:'Noto Serif KR',serif;font-size:28px;font-weight:700;color:var(--brown2);letter-spacing:4px;margin-bottom:6px}
+.home-sub{font-size:12px;color:var(--text3);letter-spacing:1px}
+
+/* AI 해설 안내 배너 */
+.ai-notice{
+  margin:14px 14px 0;
+  background:var(--amber-ll);border:1.5px solid var(--amber-l);
+  border-radius:var(--r);padding:14px 16px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.ai-notice-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.ai-notice-body{}
+.ai-notice-title{font-size:13px;font-weight:700;color:var(--brown2);margin-bottom:5px}
+.ai-notice-text{font-size:12px;color:var(--text2);line-height:1.65}
+
+/* 구약/신약 탭 */
+.testament-row{display:flex;gap:8px;padding:14px 14px 8px}
+.t-btn{
+  flex:1;padding:10px 0;border:1.5px solid var(--border);border-radius:10px;
+  background:var(--surface);color:var(--text2);cursor:pointer;
+  font-family:'Noto Serif KR',serif;font-size:14px;font-weight:600;transition:var(--tr);
+}
+.t-btn.on{background:var(--brown2);border-color:var(--brown2);color:#fff}
+
+/* 책 그리드 */
+.book-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:4px 12px 80px}
+.book-card{
+  background:var(--surface);border:1.5px solid var(--border2);
+  border-radius:var(--r);padding:13px 8px 10px;
+  cursor:pointer;text-align:center;transition:var(--tr);
+  position:relative;box-shadow:var(--sh);
+}
+.book-card:hover{border-color:var(--amber);background:var(--amber-ll);transform:translateY(-2px);box-shadow:var(--sh2)}
+.book-abbr{font-family:'Noto Serif KR',serif;font-size:17px;font-weight:700;color:var(--brown2);display:block;margin-bottom:2px}
+.book-name{font-size:10px;color:var(--text3)}
+.book-ai-badge{
+  position:absolute;top:4px;right:4px;
+  background:var(--amber-ll);border:1px solid var(--amber-l);
+  border-radius:5px;color:var(--amber);font-size:9px;font-weight:700;
+  padding:2px 5px;opacity:0;transition:opacity .15s;
+  cursor:pointer;
+}
+.book-card:hover .book-ai-badge{opacity:1}
+
+/* ═══ 장 선택 화면 ═══ */
+.sec-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 14px 8px;
+}
+.sec-title{font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;color:var(--brown2)}
+.ai-pill{
+  display:flex;align-items:center;gap:5px;
+  padding:7px 13px;border-radius:18px;
+  background:linear-gradient(135deg,#fdf0d8,#fbe3b8);
+  border:1.5px solid var(--amber);
+  color:var(--amber);font-size:11px;font-weight:700;
+  cursor:pointer;transition:var(--tr);white-space:nowrap;
+}
+.ai-pill:hover{background:var(--amber);color:#fff}
+
+.ch-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;padding:4px 12px 80px}
+.ch-btn{
+  aspect-ratio:1;border-radius:10px;
+  background:var(--surface);border:1.5px solid var(--border2);
+  color:var(--text2);cursor:pointer;font-size:14px;font-weight:500;
+  display:flex;align-items:center;justify-content:center;
+  transition:var(--tr);box-shadow:var(--sh);
+}
+.ch-btn:hover{background:var(--amber-ll);border-color:var(--amber);color:var(--brown2);transform:scale(1.06)}
+
+/* ═══ 절 선택 화면 ═══ */
+.v-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;padding:4px 12px 80px}
+.v-btn{
+  aspect-ratio:1;border-radius:10px;
+  background:var(--surface);border:1.5px solid var(--border2);
+  color:var(--text2);cursor:pointer;font-size:13px;
+  display:flex;align-items:center;justify-content:center;
+  transition:var(--tr);box-shadow:var(--sh);
+}
+.v-btn:hover{background:var(--amber-ll);border-color:var(--amber);color:var(--brown2)}
+
+/* ═══ 읽기 화면 ═══ */
+.verses-wrap{padding:10px 12px 90px}
+.verse-row{
+  display:flex;gap:10px;padding:9px 10px;border-radius:10px;
+  transition:background .2s,opacity .3s;cursor:pointer;
+  border-left:3px solid transparent;
+}
+.verse-row.hl{background:rgba(192,120,48,.08);border-left-color:var(--amber)}
+.verse-row.dim{opacity:.22}
+.verse-row:hover{background:rgba(192,120,48,.05)}
+.vn{
+  font-size:11px;color:var(--amber);font-weight:700;
+  min-width:20px;padding-top:4px;flex-shrink:0;text-align:right;
+}
+.vt{
+  font-family:'Noto Serif KR',serif;
+  font-size:16px;line-height:1.88;color:var(--text);flex:1;word-break:keep-all;
+}
+.v-acts{display:none;flex-direction:column;gap:4px;align-items:flex-end;flex-shrink:0;padding-top:3px}
+.verse-row:hover .v-acts,.verse-row.hl .v-acts{display:flex}
+.v-act-btn{
+  display:flex;align-items:center;gap:3px;
+  padding:4px 8px;border-radius:6px;
+  background:var(--bg2);border:1.5px solid var(--border);
+  color:var(--text3);cursor:pointer;font-size:10px;font-weight:600;
+  transition:var(--tr);white-space:nowrap;
+}
+.v-act-btn:hover{background:var(--amber-ll);border-color:var(--amber);color:var(--amber)}
+.v-act-btn.bm-on{background:var(--amber-ll);color:var(--amber);border-color:var(--amber)}
+
+/* 이전/다음 장 */
+.ch-nav{
+  position:sticky;bottom:0;z-index:50;
+  display:flex;gap:8px;padding:10px 12px;
+  background:rgba(250,248,243,.96);backdrop-filter:blur(10px);
+  border-top:1.5px solid var(--border);
+}
+.ch-nav-btn{
+  flex:1;padding:11px;border-radius:10px;
+  background:var(--surface);border:1.5px solid var(--border);
+  color:var(--text2);cursor:pointer;font-size:13px;font-weight:500;
+  transition:var(--tr);
+}
+.ch-nav-btn:hover:not(:disabled){border-color:var(--amber);color:var(--brown);background:var(--amber-ll)}
+.ch-nav-btn:disabled{opacity:.3;cursor:default}
+
+/* ═══ 검색 ═══ */
+.s-bar{display:flex;gap:8px;padding:12px 12px;border-bottom:1.5px solid var(--border);background:var(--surface)}
+.s-in{
+  flex:1;background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;
+  color:var(--text);padding:10px 13px;font-size:14px;
+  font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s;
+}
+.s-in:focus{border-color:var(--amber);background:#fff}
+.s-go{
+  padding:10px 15px;border-radius:10px;
+  background:var(--brown2);border:none;color:#fff;
+  font-size:13px;font-weight:600;cursor:pointer;transition:var(--tr);
+}
+.s-go:hover{background:var(--brown)}
+.s-list{padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.s-item{
+  padding:12px 13px;background:var(--surface);
+  border:1.5px solid var(--border2);border-radius:var(--r);
+  cursor:pointer;box-shadow:var(--sh);transition:var(--tr);
+}
+.s-item:hover{border-color:var(--amber)}
+.s-ref{font-size:11px;color:var(--amber);font-weight:700;margin-bottom:3px}
+.s-txt{font-family:'Noto Serif KR',serif;font-size:14px;color:var(--text2);line-height:1.6}
+.s-txt mark{background:transparent;color:var(--brown2);font-weight:700}
+
+/* ═══ 북마크 ═══ */
+.bm-list{padding:12px 12px;display:flex;flex-direction:column;gap:7px}
+.bm-item{
+  display:flex;align-items:flex-start;gap:11px;
+  padding:13px 14px;background:var(--surface);
+  border:1.5px solid var(--border2);border-radius:var(--r);
+  cursor:pointer;box-shadow:var(--sh);transition:var(--tr);
+}
+.bm-item:hover{border-color:var(--amber);box-shadow:var(--sh2)}
+.bm-ico{color:var(--amber);font-size:16px;flex-shrink:0;padding-top:2px}
+.bm-ref{font-size:11px;color:var(--amber);font-weight:700;margin-bottom:4px}
+.bm-txt{font-family:'Noto Serif KR',serif;font-size:14px;color:var(--text2);line-height:1.6;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.bm-del{width:26px;height:26px;border-radius:6px;background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--tr)}
+.bm-del:hover{color:#e04;background:rgba(220,0,60,.08)}
+.empty-box{text-align:center;padding:60px 20px;color:var(--text3);font-family:'Noto Serif KR',serif}
+.empty-ico{font-size:42px;margin-bottom:12px;opacity:.3}
+
+/* ═══ 설정 ═══ */
+.set-sec{padding:14px 14px}
+.set-sec h4{font-size:11px;color:var(--text3);letter-spacing:2px;margin-bottom:10px;font-weight:600;text-transform:uppercase}
+.set-card{background:var(--surface);border:1.5px solid var(--border2);border-radius:var(--r);padding:14px 16px;margin-bottom:8px;box-shadow:var(--sh)}
+.set-card label{font-size:14px;color:var(--text);font-weight:500}
+.set-hint{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.55}
+
+/* ═══ AI 시트 ═══ */
+.overlay{position:fixed;inset:0;background:rgba(40,28,12,.38);z-index:300;opacity:0;pointer-events:none;transition:opacity .3s}
+.overlay.on{opacity:1;pointer-events:all}
+.ai-sheet{
+  position:fixed;bottom:0;left:0;right:0;z-index:310;
+  background:var(--surface);
+  border-radius:20px 20px 0 0;
+  border-top:2px solid var(--amber-l);
+  box-shadow:0 -6px 40px rgba(80,50,10,.18);
+  transform:translateY(108%);
+  transition:transform .4s cubic-bezier(.32,1.2,.6,1);
+  max-height:74vh;display:flex;flex-direction:column;
+  padding-bottom:env(safe-area-inset-bottom,16px);
+}
+.ai-sheet.on{transform:translateY(0)}
+.sh-handle{width:36px;height:4px;border-radius:2px;background:var(--border);margin:11px auto 0;flex-shrink:0}
+.sh-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 18px 9px;flex-shrink:0;border-bottom:1px solid var(--border2)}
+.sh-title-wrap{display:flex;flex-direction:column;gap:3px}
+.sh-title{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:700;color:var(--brown2)}
+.sh-badge{font-size:10px;color:var(--amber);font-weight:700;letter-spacing:.5px}
+.sh-close{width:30px;height:30px;border-radius:50%;background:var(--bg2);border:1.5px solid var(--border);color:var(--text3);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
+.sh-close:hover{background:var(--bg3);color:var(--text)}
+.sh-body{padding:14px 20px 20px;overflow-y:auto;flex:1;font-family:'Noto Serif KR',serif;font-size:15px;line-height:1.92;color:var(--text)}
+.sh-disclaimer{font-size:11px;color:var(--text3);margin-top:14px;padding-top:12px;border-top:1px solid var(--border2);line-height:1.6;font-family:'Noto Sans KR',sans-serif}
+
+.dots{display:inline-flex;gap:5px;align-items:center}
+.dots span{width:7px;height:7px;border-radius:50%;background:var(--amber);animation:db .9s infinite ease-in-out}
+.dots span:nth-child(2){animation-delay:.18s}.dots span:nth-child(3){animation-delay:.36s}
+@keyframes db{0%,80%,100%{transform:scale(.45)}40%{transform:scale(1)}}
+
+/* ═══ 토스트 ═══ */
+.toast{
+  position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(14px);
+  background:var(--brown2);border-radius:20px;color:#fff;
+  padding:9px 20px;font-size:13px;font-weight:500;
+  z-index:400;opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap;
+  box-shadow:0 4px 16px rgba(44,28,8,.2);
+}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+</style>
+</head>
+<body>
+
+<!-- ══════════ 헤더 ══════════ -->
+<div class="hdr" id="hdr">
+  <button class="hdr-btn" id="btnHome" title="홈">🏠</button>
+  <button class="hdr-btn" id="btnBack" title="뒤로" disabled>←</button>
+  <div class="hdr-title logo-mode" id="hdrTitle">✝ 말씀</div>
+  <!-- 읽기 모드에서만 보이는 요약 버튼 -->
+  <button class="hdr-ai-btn" id="hdrAiBtn" style="display:none">✨ 장 요약</button>
+  <button class="hdr-btn" id="btnSearch" title="검색">🔍</button>
+  <button class="hdr-btn" id="btnBm" title="북마크">🔖</button>
+</div>
+
+<!-- ══════════ 탭바 ══════════ -->
+<div class="tabbar">
+  <button class="tab on" data-tab="bible">성경</button>
+  <button class="tab" data-tab="search">검색</button>
+  <button class="tab" data-tab="bookmarks">북마크</button>
+  <button class="tab" data-tab="settings">설정</button>
+</div>
+
+<!-- ══════════ 성경 탭 ══════════ -->
+<div id="bible-page" class="page on">
+
+  <!-- 뷰 A: 홈 (책 목록) -->
+  <div id="vHome">
+    <div class="home-hero">
+      <div class="home-cross">✝</div>
+      <div class="home-title">말씀</div>
+      <div class="home-sub">개역한글 성경 (KRV)</div>
+    </div>
+
+    <!-- AI 해설 안내 배너 -->
+    <div class="ai-notice">
+      <div class="ai-notice-icon">💬</div>
+      <div class="ai-notice-body">
+        <div class="ai-notice-title">AI 해설 안내</div>
+        <div class="ai-notice-text">
+          본 앱의 AI 해설은 <strong>교리나 신학적 판단이 아닌</strong>, 성경 속 <strong>인물·지명·사건·언어</strong>를 이해하기 위한 <strong>이야기(스토리) 중심의 설명</strong>입니다. "이 사람은 누구인가", "여기서 무슨 일이 일어났는가", "이 단어는 무슨 뜻인가"에 초점을 맞추며, 신앙적 해석은 독자 각자의 몫으로 남겨둡니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="testament-row">
+      <button class="t-btn on" data-t="old">구약 39권</button>
+      <button class="t-btn" data-t="new">신약 27권</button>
+    </div>
+    <div class="book-grid" id="bookGrid"></div>
+  </div>
+
+  <!-- 뷰 B: 장 선택 -->
+  <div id="vChapter" style="display:none">
+    <div class="sec-header">
+      <div class="sec-title" id="chTitle">창세기 — 장 선택</div>
+      <button class="ai-pill" id="bookAiBtn">✨ 이 책 요약</button>
+    </div>
+    <div class="ch-grid" id="chGrid"></div>
+  </div>
+
+  <!-- 뷰 C: 절 선택 -->
+  <div id="vVerse" style="display:none">
+    <div class="sec-header">
+      <div class="sec-title" id="vTitle">창세기 1장 — 절 선택</div>
+      <button class="ai-pill" id="chapAiBtn">✨ 이 장 요약</button>
+    </div>
+    <div class="v-grid" id="vGrid"></div>
+  </div>
+
+  <!-- 뷰 D: 읽기 -->
+  <div id="vRead" style="display:none">
+    <div class="verses-wrap" id="versesWrap"></div>
+    <div class="ch-nav">
+      <button class="ch-nav-btn" id="prevBtn">‹ 이전 장</button>
+      <button class="ch-nav-btn" id="nextBtn">다음 장 ›</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ 검색 탭 ══════════ -->
+<div id="search-page" class="page">
+  <div class="s-bar">
+    <input class="s-in" id="sIn" placeholder="구절 검색 (예: 태초에, 사랑하라)">
+    <button class="s-go" id="sGo">검색</button>
+  </div>
+  <div id="sResults" class="s-list"></div>
+</div>
+
+<!-- ══════════ 북마크 탭 ══════════ -->
+<div id="bookmarks-page" class="page">
+  <div class="bm-list" id="bmList"></div>
+</div>
+
+<!-- ══════════ 설정 탭 ══════════ -->
+<div id="settings-page" class="page">
+  <div class="set-sec">
+    <h4>앱 정보</h4>
+    <div class="set-card">
+      <label>성경 번역본</label>
+      <div class="set-hint">개역한글(KRV) — 공개 도메인 성경 데이터 사용</div>
+    </div>
+    <div class="set-card">
+      <label>AI 해설</label>
+      <div class="set-hint">Google Gemini 2.0 Flash 모델을 사용하여 성경 본문의 인물·사건·지명·언어를 이야기 중심으로 설명합니다. 교리적 판단은 포함하지 않습니다.</div>
+    </div>
+    <div class="set-card">
+      <label>데이터 출처</label>
+      <div class="set-hint">성경 본문: api.getbible.net (개역한글)<br>AI 해설: Cloudflare Workers + Google Gemini API</div>
+    </div>
+  </div>
+  <div class="set-sec">
+    <h4>북마크 관리</h4>
+    <div class="set-card" style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <label>북마크 전체 삭제</label>
+        <div class="set-hint">저장된 모든 북마크를 삭제합니다</div>
+      </div>
+      <button id="clearBmBtn" style="padding:8px 14px;border-radius:8px;background:#fee;border:1.5px solid #fcc;color:#c33;font-size:12px;font-weight:600;cursor:pointer">삭제</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ AI 시트 ══════════ -->
+<div class="overlay" id="overlay"></div>
+<div class="ai-sheet" id="aiSheet">
+  <div class="sh-handle"></div>
+  <div class="sh-hdr">
+    <div class="sh-title-wrap">
+      <div class="sh-title" id="shTitle">AI 해설</div>
+      <div class="sh-badge" id="shBadge">스토리 중심 해설</div>
+    </div>
+    <button class="sh-close" id="shClose">✕</button>
+  </div>
+  <div class="sh-body" id="shBody"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ════════════════════════════════════════
+   1. 성경 66권 절 수 데이터 (KRV 정확값)
+════════════════════════════════════════ */
+const VC = {
+  gen:[31,25,24,26,32,22,24,22,29,32,32,20,18,24,21,16,27,33,38,18,34,24,20,67,34,35,46,22,35,43,55,32,20,31,29,43,36,30,23,23,57,38,34,34,28,34,31,22,33,26],
+  exo:[22,25,22,31,23,30,25,32,35,29,10,51,22,31,27,36,16,27,25,26,36,31,33,18,40,37,21,43,46,38,18,35,23,35,35,38,29,31,43,38],
+  lev:[17,16,17,35,19,30,38,36,24,20,47,8,59,57,33,34,16,30,24,16,34,4,24,16,24,5,26,5,6,30],
+  num:[54,34,51,49,31,27,89,26,23,36,35,16,33,45,41,50,13,32,22,29,35,41,30,25,18,65,23,31,40,16,54,42,56,29,34,13],
+  deu:[46,37,29,49,33,25,26,20,29,22,32,32,18,29,23,22,20,22,21,20,23,30,25,22,19,19,26,68,29,20,30,52,29,12],
+  jos:[18,24,17,24,15,27,26,35,27,43,23,24,33,15,63,10,18,28,51,9,45,34,16,33],
+  jdg:[36,23,31,24,31,40,25,35,57,18,40,15,25,20,20,31,13,31,30,48,25],
+  rut:[22,23,18,22],
+  "1sa":[28,36,21,22,12,21,17,22,27,27,15,25,23,52,35,23,58,30,24,42,15,23,29,22,44,25,12,25,11,31,13],
+  "2sa":[27,32,39,12,25,23,29,18,13,19,27,31,39,33,37,23,29,33,43,26,22,51,39,25],
+  "1ki":[53,46,28,34,18,38,51,66,28,29,43,33,34,31,34,34,24,46,21,43,29,53],
+  "2ki":[18,25,27,44,27,33,20,29,37,36,21,21,25,29,38,20,41,37,37,21,26,20,37,20,30],
+  "1ch":[54,55,24,43,26,81,40,40,44,14,47,40,14,17,29,43,27,17,19,8,30,19,32,31,31,32,34,21,30],
+  "2ch":[17,18,17,22,14,42,22,18,31,19,23,16,22,15,19,14,19,34,11,37,20,12,21,27,28,23,9,27,36,27,21,33,25,33,27,23],
+  ezr:[11,70,13,24,17,22,28,36,15,44],
+  neh:[11,20,32,23,19,19,73,18,38,39,36,47,31],
+  est:[22,28,23,31,29,41,26,38,22,23],
+  job:[22,13,26,21,27,30,21,22,35,22,20,25,28,22,35,22,16,21,29,29,34,30,17,25,6,14,23,28,25,31,40,22,33,37,16,33,24,41,30,24,34,17],
+  psa:[6,12,8,8,12,10,17,9,20,18,7,8,6,7,5,11,15,50,14,9,13,31,6,10,22,12,14,9,11,12,24,11,22,22,28,12,40,22,13,17,13,11,5,20,28,22,35,22,46,28,14,9,17,12,12,16,13,14,14,7,16,11,15,14,23,17,12,17,7,18,12,83,14,6,6,32,11,27,36,17,20,18,10,20,24,26,31,17,22,30,18,17,12,6,26,18,12,8,20,11,14,20,18,13,12,11,8,23,14,6,13,11,11,6,18,17,8,20,6,18,24,13,23,6,19,18,17,5,22,11,17,8,16,8,18,20,19,16,20,6,10,7,14,9,13,10,10,11,6,6],
+  pro:[33,22,35,27,23,35,27,36,18,32,31,28,25,35,33,33,28,24,29,30,31,29,35,34,28,28,27,28,27,33,31],
+  ecc:[18,26,22,16,20,12,29,17,18,20,10,14],
+  sng:[17,17,11,16,16,13,13,14],
+  isa:[31,22,26,6,30,13,25,22,21,34,16,6,22,32,9,14,14,7,25,6,17,25,18,23,12,21,13,29,24,33,9,20,24,17,10,22,38,22,8,31,29,25,28,28,25,13,15,22,26,11,23,15,12,17,13,12,21,14,21,22,11,12,19,12,25,24],
+  jer:[19,37,25,31,31,30,34,22,26,25,23,17,27,22,21,21,27,23,15,18,14,30,40,10,38,24,22,17,32,24,40,44,26,22,19,32,21,28,18,16,18,22,13,30,5,28,7,47,39,46,64,34],
+  lam:[22,22,66,22,22],
+  ezk:[28,10,27,17,17,14,27,18,11,22,25,28,23,23,8,63,24,32,14,49,32,31,49,27,17,21,36,26,21,26,18,32,33,31,15,38,28,23,29,49,26,20,27,31,25,24,23,35],
+  dan:[21,49,30,37,31,28,28,27,27,21,45,13],
+  hos:[11,23,5,19,15,11,16,14,17,15,12,14,16,9],
+  jol:[20,32,21],amo:[15,16,15,13,27,14,17,14,15],oba:[21],
+  jon:[17,10,10,11],mic:[16,13,12,13,15,16,20],nah:[15,13,19],
+  hab:[17,20,19],zep:[18,15,20],hag:[15,23],
+  zec:[21,13,10,14,11,15,14,23,17,12,17,14,9,21],mal:[14,17,18,6],
+  mat:[25,23,17,25,48,34,29,34,38,42,30,50,58,36,39,28,27,35,30,34,46,46,39,51,46,75,66,20],
+  mrk:[45,28,35,41,43,56,37,38,50,52,33,44,37,72,47,20],
+  luk:[80,52,38,44,39,49,50,56,62,42,54,59,35,35,32,31,37,43,48,47,38,71,56,53],
+  jhn:[51,25,36,54,47,71,53,59,41,42,57,50,38,31,27,33,26,40,42,31,25],
+  act:[26,47,26,37,42,15,60,40,43,48,30,25,52,28,41,40,34,28,41,38,40,30,35,27,27,32,44,31],
+  rom:[32,29,31,25,21,23,25,39,33,21,36,21,14,26,33,25],
+  "1co":[31,16,23,21,13,20,40,13,27,33,34,31,13,40,58,24],
+  "2co":[24,17,18,18,21,18,16,24,15,18,33,21,14],
+  gal:[24,21,29,31,26,18],eph:[23,22,21,28,20,32],php:[30,30,21,23],
+  col:[29,23,25,18],"1th":[10,20,13,18,28],"2th":[12,17,18],
+  "1ti":[20,15,16,16,25,21],"2ti":[18,26,17,22],tit:[16,15,15],phm:[25],
+  heb:[14,18,19,16,14,20,28,13,28,39,40,29,25],jas:[27,26,18,17,20],
+  "1pe":[25,25,22,19,14],"2pe":[21,22,18],
+  "1jn":[10,29,24,21,21],"2jn":[13],"3jn":[15],jud:[25],
+  rev:[20,29,22,11,14,17,17,13,21,11,19,17,18,20,8,21,18,24,21,15,27,21]
+};
+
+/* ════════════════════════════════════════
+   2. 책 목록
+════════════════════════════════════════ */
+const BOOKS=[
+  {id:"gen",name:"창세기",abbr:"창",t:"old"},{id:"exo",name:"출애굽기",abbr:"출",t:"old"},
+  {id:"lev",name:"레위기",abbr:"레",t:"old"},{id:"num",name:"민수기",abbr:"민",t:"old"},
+  {id:"deu",name:"신명기",abbr:"신",t:"old"},{id:"jos",name:"여호수아",abbr:"수",t:"old"},
+  {id:"jdg",name:"사사기",abbr:"삿",t:"old"},{id:"rut",name:"룻기",abbr:"룻",t:"old"},
+  {id:"1sa",name:"사무엘상",abbr:"삼상",t:"old"},{id:"2sa",name:"사무엘하",abbr:"삼하",t:"old"},
+  {id:"1ki",name:"열왕기상",abbr:"왕상",t:"old"},{id:"2ki",name:"열왕기하",abbr:"왕하",t:"old"},
+  {id:"1ch",name:"역대상",abbr:"대상",t:"old"},{id:"2ch",name:"역대하",abbr:"대하",t:"old"},
+  {id:"ezr",name:"에스라",abbr:"스",t:"old"},{id:"neh",name:"느헤미야",abbr:"느",t:"old"},
+  {id:"est",name:"에스더",abbr:"에",t:"old"},{id:"job",name:"욥기",abbr:"욥",t:"old"},
+  {id:"psa",name:"시편",abbr:"시",t:"old"},{id:"pro",name:"잠언",abbr:"잠",t:"old"},
+  {id:"ecc",name:"전도서",abbr:"전",t:"old"},{id:"sng",name:"아가",abbr:"아",t:"old"},
+  {id:"isa",name:"이사야",abbr:"사",t:"old"},{id:"jer",name:"예레미야",abbr:"렘",t:"old"},
+  {id:"lam",name:"예레미야애가",abbr:"애",t:"old"},{id:"ezk",name:"에스겔",abbr:"겔",t:"old"},
+  {id:"dan",name:"다니엘",abbr:"단",t:"old"},{id:"hos",name:"호세아",abbr:"호",t:"old"},
+  {id:"jol",name:"요엘",abbr:"욜",t:"old"},{id:"amo",name:"아모스",abbr:"암",t:"old"},
+  {id:"oba",name:"오바댜",abbr:"옵",t:"old"},{id:"jon",name:"요나",abbr:"욘",t:"old"},
+  {id:"mic",name:"미가",abbr:"미",t:"old"},{id:"nah",name:"나훔",abbr:"나",t:"old"},
+  {id:"hab",name:"하박국",abbr:"합",t:"old"},{id:"zep",name:"스바냐",abbr:"습",t:"old"},
+  {id:"hag",name:"학개",abbr:"학",t:"old"},{id:"zec",name:"스가랴",abbr:"슥",t:"old"},
+  {id:"mal",name:"말라기",abbr:"말",t:"old"},
+  {id:"mat",name:"마태복음",abbr:"마",t:"new"},{id:"mrk",name:"마가복음",abbr:"막",t:"new"},
+  {id:"luk",name:"누가복음",abbr:"눅",t:"new"},{id:"jhn",name:"요한복음",abbr:"요",t:"new"},
+  {id:"act",name:"사도행전",abbr:"행",t:"new"},{id:"rom",name:"로마서",abbr:"롬",t:"new"},
+  {id:"1co",name:"고린도전서",abbr:"고전",t:"new"},{id:"2co",name:"고린도후서",abbr:"고후",t:"new"},
+  {id:"gal",name:"갈라디아서",abbr:"갈",t:"new"},{id:"eph",name:"에베소서",abbr:"엡",t:"new"},
+  {id:"php",name:"빌립보서",abbr:"빌",t:"new"},{id:"col",name:"골로새서",abbr:"골",t:"new"},
+  {id:"1th",name:"데살로니가전서",abbr:"살전",t:"new"},{id:"2th",name:"데살로니가후서",abbr:"살후",t:"new"},
+  {id:"1ti",name:"디모데전서",abbr:"딤전",t:"new"},{id:"2ti",name:"디모데후서",abbr:"딤후",t:"new"},
+  {id:"tit",name:"디도서",abbr:"딛",t:"new"},{id:"phm",name:"빌레몬서",abbr:"몬",t:"new"},
+  {id:"heb",name:"히브리서",abbr:"히",t:"new"},{id:"jas",name:"야고보서",abbr:"약",t:"new"},
+  {id:"1pe",name:"베드로전서",abbr:"벧전",t:"new"},{id:"2pe",name:"베드로후서",abbr:"벧후",t:"new"},
+  {id:"1jn",name:"요한1서",abbr:"요일",t:"new"},{id:"2jn",name:"요한2서",abbr:"요이",t:"new"},
+  {id:"3jn",name:"요한3서",abbr:"요삼",t:"new"},{id:"jud",name:"유다서",abbr:"유",t:"new"},
+  {id:"rev",name:"요한계시록",abbr:"계",t:"new"},
+];
+
+/* ════════════════════════════════════════
+   3. 앱 상태
+════════════════════════════════════════ */
+const S={
+  testament:'old',
+  book:null, chapter:null, verse:null,
+  cache:{},
+  bookmarks:JSON.parse(localStorage.getItem('bm')||'[]'),
+  workerUrl: 'https://bible-ai-worker.hdh1231.workers.dev',   // ← 배포 시 실제 주소로 교체
+  // 뷰 히스토리 스택 (뒤로가기용)
+  history:[],   // 'home'|'chapter'|'verse'|'read'
+};
+
+/* ════════════════════════════════════════
+   4. 뷰 관리 + 히스토리
+════════════════════════════════════════ */
+const VIEWS={home:'vHome',chapter:'vChapter',verse:'vVerse',read:'vRead'};
+
+function showView(name, pushHistory=true){
+  Object.values(VIEWS).forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById(VIEWS[name]).style.display='block';
+
+  if(pushHistory && S.history[S.history.length-1]!==name) S.history.push(name);
+
+  // 헤더 업데이트
+  const hdrTitle=document.getElementById('hdrTitle');
+  const hdrAi=document.getElementById('hdrAiBtn');
+  const btnBack=document.getElementById('btnBack');
+
+  btnBack.disabled = S.history.length<=1;
+
+  if(name==='home'){
+    hdrTitle.textContent='✝ 말씀';
+    hdrTitle.className='hdr-title logo-mode';
+    hdrAi.style.display='none';
+    S.history=['home']; // 홈에서 스택 리셋
+    btnBack.disabled=true;
+  } else if(name==='chapter'){
+    hdrTitle.textContent=S.book.name;
+    hdrTitle.className='hdr-title';
+    hdrAi.style.display='none';
+  } else if(name==='verse'){
+    hdrTitle.textContent=`${S.book.name} ${S.chapter}장`;
+    hdrTitle.className='hdr-title';
+    hdrAi.style.display='none';
+  } else if(name==='read'){
+    hdrTitle.textContent=`${S.book.name} ${S.chapter}장`;
+    hdrTitle.className='hdr-title';
+    hdrAi.style.display='flex';
+  }
+}
+
+function goBack(){
+  if(S.history.length<=1) return;
+  S.history.pop();
+  const prev=S.history[S.history.length-1];
+  showView(prev, false);
+  // 뷰 별 내용 복원
+  if(prev==='chapter') renderChapters();
+  if(prev==='verse') renderVerseNums(VC[S.book.id][S.chapter-1]);
+}
+
+/* ════════════════════════════════════════
+   5. 책 목록
+════════════════════════════════════════ */
+function renderBooks(){
+  const grid=document.getElementById('bookGrid');
+  grid.innerHTML=BOOKS.filter(b=>b.t===S.testament).map(b=>`
+    <div class="book-card" data-id="${b.id}">
+      <span class="book-ai-badge" data-id="${b.id}">AI 요약</span>
+      <span class="book-abbr">${b.abbr}</span>
+      <span class="book-name">${b.name}</span>
+    </div>`).join('');
+
+  grid.querySelectorAll('.book-card').forEach(card=>{
+    card.addEventListener('click',e=>{
+      const badge=e.target.closest('.book-ai-badge');
+      if(badge){e.stopPropagation();openAiSheet('book',BOOKS.find(b=>b.id===badge.dataset.id));return;}
+      goBook(BOOKS.find(b=>b.id===card.dataset.id));
+    });
+  });
+}
+
+function goBook(bk){
+  S.book=bk;
+  document.getElementById('chTitle').textContent=`${bk.name} — 장 선택`;
+  renderChapters();
+  showView('chapter');
+}
+
+/* ════════════════════════════════════════
+   6. 장 목록
+════════════════════════════════════════ */
+function renderChapters(){
+  const total=VC[S.book.id].length;
+  document.getElementById('chGrid').innerHTML=
+    Array.from({length:total},(_,i)=>`<button class="ch-btn" data-ch="${i+1}">${i+1}</button>`).join('');
+  document.getElementById('chGrid').querySelectorAll('.ch-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>goChapter(parseInt(btn.dataset.ch)));
+  });
+}
+
+function goChapter(ch, targetVerse=null){
+  S.chapter=ch;
+  document.getElementById('vTitle').textContent=`${S.book.name} ${ch}장 — 절 선택`;
+  const cnt=VC[S.book.id][ch-1];
+  if(targetVerse!==null){
+    S.verse=targetVerse;
+    loadAndRead(ch,targetVerse);
+  } else {
+    renderVerseNums(cnt);
+    showView('verse');
+  }
+}
+
+/* ════════════════════════════════════════
+   7. 절 번호 목록
+════════════════════════════════════════ */
+function renderVerseNums(count){
+  document.getElementById('vGrid').innerHTML=
+    Array.from({length:count},(_,i)=>`<button class="v-btn" data-v="${i+1}">${i+1}</button>`).join('');
+  document.getElementById('vGrid').querySelectorAll('.v-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{S.verse=parseInt(btn.dataset.v);loadAndRead(S.chapter,S.verse);});
+  });
+}
+
+/* ════════════════════════════════════════
+   8. 본문 로드 + 읽기
+════════════════════════════════════════ */
+async function fetchCh(bookId,ch){
+  const key=`${bookId}_${ch}`;
+  if(S.cache[key]) return S.cache[key];
+  const idx=BOOKS.findIndex(b=>b.id===bookId)+1;
+  try{
+    const r=await fetch(`https://api.getbible.net/v2/korean/${idx}/${ch}.json`);
+    if(!r.ok) throw new Error('net');
+    const data=await r.json();
+    const verses=Object.keys(data.verses).sort((a,b)=>+a-+b).map(k=>data.verses[k].verse);
+    S.cache[key]=verses; return verses;
+  }catch{
+    const n=VC[bookId][ch-1];
+    return Array.from({length:n},(_,i)=>`(${i+1}절 — 네트워크 오류. 인터넷 연결을 확인하세요.)`);
+  }
+}
+
+async function loadAndRead(ch, targetVerse){
+  S.chapter=ch; S.verse=targetVerse;
+
+  // 헤더 즉시 업데이트
+  document.getElementById('hdrTitle').textContent=`${S.book.name} ${ch}장`;
+
+  showView('read');
+  document.getElementById('versesWrap').innerHTML=
+    `<div style="padding:40px;text-align:center;color:var(--text3)">
+       <div class="dots"><span></span><span></span><span></span></div>
+       <div style="margin-top:10px;font-size:14px">본문 불러오는 중…</div>
+     </div>`;
+  updateNavBtns();
+
+  const verses=await fetchCh(S.book.id, ch);
+  renderVerses(verses, targetVerse);
+
+  setTimeout(()=>{
+    const el=document.querySelector(`.verse-row[data-v="${targetVerse}"]`);
+    if(el){el.scrollIntoView({behavior:'smooth',block:'center'});applyDim(targetVerse);}
+  },80);
+}
+
+/* ════════════════════════════════════════
+   9. 절 렌더
+════════════════════════════════════════ */
+function isBm(v){return S.bookmarks.some(b=>b.bid===S.book.id&&b.ch===S.chapter&&b.v===v)}
+
+function renderVerses(verses, hl){
+  document.getElementById('versesWrap').innerHTML=verses.map((text,i)=>{
+    const v=i+1, bm=isBm(v);
+    return `<div class="verse-row${v===hl?' hl':''}" data-v="${v}">
+      <span class="vn">${v}</span>
+      <span class="vt">${text}</span>
+      <div class="v-acts">
+        <button class="v-act-btn${bm?' bm-on':''}" data-act="bm" data-v="${v}">🔖 북마크</button>
+        <button class="v-act-btn" data-act="ai" data-v="${v}">✨ AI 해설</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.querySelectorAll('.verse-row').forEach(row=>{
+    row.addEventListener('click',e=>{
+      const btn=e.target.closest('.v-act-btn');
+      if(btn){
+        e.stopPropagation();
+        const v=parseInt(btn.dataset.v);
+        if(btn.dataset.act==='bm') toggleBm(v,btn);
+        if(btn.dataset.act==='ai') openAiSheet('verse',null,v);
+        return;
+      }
+      highlightV(parseInt(row.dataset.v));
+    });
+  });
+}
+
+/* ════════════════════════════════════════
+   10. 하이라이트 / Dim
+════════════════════════════════════════ */
+function applyDim(tv){
+  const rows=document.querySelectorAll('.verse-row');
+  rows.forEach(r=>parseInt(r.dataset.v)!==tv&&r.classList.add('dim'));
+  const cancel=()=>{rows.forEach(r=>r.classList.remove('dim'));};
+  setTimeout(()=>{
+    document.getElementById('versesWrap').addEventListener('scroll',cancel,{once:true});
+    window.addEventListener('scroll',cancel,{once:true});
+    window.addEventListener('touchmove',cancel,{once:true});
+  },500);
+}
+function highlightV(v){
+  document.querySelectorAll('.verse-row').forEach(r=>r.classList.remove('hl','dim'));
+  const r=document.querySelector(`.verse-row[data-v="${v}"]`);
+  if(r) r.classList.add('hl');
+  S.verse=v;
+}
+function updateNavBtns(){
+  const total=VC[S.book.id].length;
+  document.getElementById('prevBtn').disabled=S.chapter<=1;
+  document.getElementById('nextBtn').disabled=S.chapter>=total;
+}
+
+/* ════════════════════════════════════════
+   11. 이전/다음 장
+════════════════════════════════════════ */
+async function changeChapter(delta){
+  const newCh=S.chapter+delta;
+  const total=VC[S.book.id].length;
+  if(newCh<1||newCh>total) return;
+  S.chapter=newCh;
+  S.verse=1;
+  document.getElementById('hdrTitle').textContent=`${S.book.name} ${newCh}장`;
+  updateNavBtns();
+
+  document.getElementById('versesWrap').innerHTML=
+    `<div style="padding:40px;text-align:center;color:var(--text3)">
+       <div class="dots"><span></span><span></span><span></span></div>
+       <div style="margin-top:10px;font-size:14px">본문 불러오는 중…</div>
+     </div>`;
+  document.getElementById('versesWrap').scrollTop=0;
+  window.scrollTo(0,0);
+
+  const verses=await fetchCh(S.book.id,newCh);
+  renderVerses(verses,1);
+  // 히스토리에 현재 장 업데이트
+  S.history=S.history.filter(v=>v!=='read');
+  S.history.push('read');
+}
+
+/* ════════════════════════════════════════
+   12. 북마크
+════════════════════════════════════════ */
+function toggleBm(v,btn){
+  const idx=S.bookmarks.findIndex(b=>b.bid===S.book.id&&b.ch===S.chapter&&b.v===v);
+  if(idx>=0){
+    S.bookmarks.splice(idx,1);btn.classList.remove('bm-on');toast('북마크 삭제됨');
+  }else{
+    const verses=S.cache[`${S.book.id}_${S.chapter}`]||[];
+    S.bookmarks.push({bid:S.book.id,bookName:S.book.name,ch:S.chapter,v,text:verses[v-1]||''});
+    btn.classList.add('bm-on');toast('북마크 저장됨 🔖');
+  }
+  localStorage.setItem('bm',JSON.stringify(S.bookmarks));
+}
+function renderBm(){
+  const list=document.getElementById('bmList');
+  if(!S.bookmarks.length){
+    list.innerHTML=`<div class="empty-box"><div class="empty-ico">🔖</div>저장된 북마크가 없습니다</div>`;return;
+  }
+  list.innerHTML=S.bookmarks.map((b,i)=>`
+    <div class="bm-item" data-i="${i}">
+      <div class="bm-ico">🔖</div>
+      <div style="flex:1;min-width:0">
+        <div class="bm-ref">${b.bookName} ${b.ch}:${b.v}</div>
+        <div class="bm-txt">${b.text}</div>
+      </div>
+      <button class="bm-del" data-i="${i}">✕</button>
+    </div>`).join('');
+  list.querySelectorAll('.bm-item').forEach(item=>{
+    item.addEventListener('click',e=>{
+      if(e.target.classList.contains('bm-del')){
+        S.bookmarks.splice(+e.target.dataset.i,1);
+        localStorage.setItem('bm',JSON.stringify(S.bookmarks));renderBm();return;
+      }
+      const bm=S.bookmarks[+item.dataset.i];
+      const bk=BOOKS.find(b=>b.id===bm.bid);
+      if(bk){goBook(bk);goChapter(bm.ch,bm.v);switchTab('bible');}
+    });
+  });
+}
+
+/* ════════════════════════════════════════
+   13. AI 시트 — 스토리 중심 프롬프트
+════════════════════════════════════════ */
+async function openAiSheet(type,bookObj=null,vNum=null){
+  const sheet=document.getElementById('aiSheet');
+  const ov=document.getElementById('overlay');
+  const title=document.getElementById('shTitle');
+  const badge=document.getElementById('shBadge');
+  const body=document.getElementById('shBody');
+
+  const STORY_SYSTEM=`당신은 성경 이야기 안내자입니다.
+교리적 해석이나 신앙적 판단은 절대 하지 않습니다.
+오직 스토리, 역사, 언어, 문화적 관점에서 설명합니다.
+다음에 집중합니다:
+- 등장인물이 누구인지, 어떤 사람인지
+- 어떤 사건이 일어났는지, 왜 일어났는지
+- 지명이 어디인지, 어떤 곳인지
+- 어려운 단어나 표현이 무슨 뜻인지
+- 당시 시대적·문화적 배경
+모든 답변은 한국어로, 이해하기 쉬운 말로 작성합니다.`;
+
+  let prompt='';
+  if(type==='book'){
+    title.textContent=`${bookObj.name} 이야기`;
+    badge.textContent='권 전체 스토리 안내';
+    prompt=`성경 "${bookObj.name}"에 대해 스토리 관점에서 안내해주세요.\n\n다음 항목으로 설명해주세요:\n1. 이 책은 언제, 어디서, 누구에 관한 이야기인가요?\n2. 주요 등장인물은 누구인가요?\n3. 어떤 사건들이 일어나나요? (핵심 줄거리)\n4. 이 책에 자주 나오는 어려운 지명이나 단어는 무엇인가요?\n\n교리나 신앙 해석은 하지 말고, 이야기 자체로만 설명해주세요. 400자 이내로 간결하게.`;
+  }else if(type==='chapter'){
+    title.textContent=`${S.book.name} ${S.chapter}장`;
+    badge.textContent='장 스토리 안내';
+    prompt=`성경 개역한글 ${S.book.name} ${S.chapter}장의 이야기를 안내해주세요.\n\n다음 항목으로 설명해주세요:\n1. 이 장에서 어떤 사건이 일어나나요?\n2. 주요 인물은 누구이며, 어떤 역할인가요?\n3. 나오는 지명이나 어려운 단어는 무슨 뜻인가요?\n\n교리나 신앙 해석은 하지 말고, 이야기로만 설명해주세요. 300자 이내로.`;
+  }else if(type==='verse'){
+    const verses=S.cache[`${S.book.id}_${S.chapter}`]||[];
+    const text=verses[vNum-1]||'';
+    title.textContent=`${S.book.name} ${S.chapter}:${vNum}`;
+    badge.textContent='절 스토리·언어 해설';
+    prompt=`성경 개역한글 ${S.book.name} ${S.chapter}장 ${vNum}절을 해설해주세요.\n\n구절: "${text}"\n\n다음 항목으로 설명해주세요:\n1. 이 구절에 나오는 인물이나 대상은 누구/무엇인가요?\n2. 어떤 상황에서 한 말 또는 일어난 일인가요?\n3. 어려운 단어나 표현(지명, 고유명사, 고어 등)이 있다면 설명해주세요.\n4. 이 구절 전후 이야기 맥락은 무엇인가요?\n\n교리나 신앙 해석은 하지 말고, 국어·언어·역사적으로만 설명해주세요. 400자 이내로.`;
+  }
+
+  body.innerHTML=`<div style="display:flex;align-items:center;gap:10px;color:var(--text3);padding:8px 0"><div class="dots"><span></span><span></span><span></span></div> 분석 중입니다…</div>`;
+  sheet.classList.add('on');ov.classList.add('on');
+
+  const result=await callWorker(STORY_SYSTEM, prompt);
+  body.innerHTML=
+    result.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')+
+    `<div class="sh-disclaimer">⚠️ 이 해설은 교리적·신학적 판단이 아닌 성경 이야기의 스토리·언어·역사적 이해를 돕기 위한 참고 자료입니다. AI가 생성한 내용으로 오류가 있을 수 있습니다.</div>`;
+}
+
+async function callWorker(system, prompt){
+  const url=S.workerUrl;
+  if(!url||url==='https://bible-ai-worker.hdh1231.workers.dev'){
+    return '⚠️ <strong>Worker URL이 설정되지 않았습니다.</strong><br><br>배포 가이드를 참고하여 Cloudflare Worker를 배포하고, worker.js의 <code>https://bible-ai-worker.hdh1231.workers.dev</code> 부분을 실제 주소로 교체하세요.';
+  }
+  try{
+    const r=await fetch(url,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({system,prompt})
+    });
+    if(!r.ok) throw new Error(`HTTP ${r.status}`);
+    const d=await r.json();
+    return d.text||d.error||'응답을 받지 못했습니다.';
+  }catch(e){
+    return `❌ 연결 실패: ${e.message}<br><br>Worker가 실행 중인지 확인하세요.`;
+  }
+}
+
+function closeSheet(){
+  document.getElementById('aiSheet').classList.remove('on');
+  document.getElementById('overlay').classList.remove('on');
+}
+
+/* ════════════════════════════════════════
+   14. 검색
+════════════════════════════════════════ */
+function doSearch(q){
+  if(!q.trim()) return;
+  const res=document.getElementById('sResults');
+  const found=[];
+  for(const [key,verses] of Object.entries(S.cache)){
+    const [bid,ch]=key.split('_');
+    const bk=BOOKS.find(b=>b.id===bid);
+    if(!bk) continue;
+    verses.forEach((text,i)=>{
+      if(text.includes(q)) found.push({bk,ch:+ch,v:i+1,text});
+    });
+  }
+  if(!found.length){
+    res.innerHTML=`<div style="padding:30px;text-align:center;color:var(--text3);font-size:14px">검색 결과 없음<br><small style="font-size:12px;margin-top:6px;display:block">열어본 책의 본문에서만 검색됩니다</small></div>`;
+    return;
+  }
+  const list=found.slice(0,50);
+  res.innerHTML=list.map((r,i)=>`
+    <div class="s-item" data-i="${i}">
+      <div class="s-ref">${r.bk.name} ${r.ch}:${r.v}</div>
+      <div class="s-txt">${r.text.replace(q,`<mark>${q}</mark>`)}</div>
+    </div>`).join('');
+  res.querySelectorAll('.s-item').forEach((item,i)=>{
+    item.addEventListener('click',()=>{
+      goBook(list[i].bk);goChapter(list[i].ch,list[i].v);switchTab('bible');
+    });
+  });
+}
+
+/* ════════════════════════════════════════
+   15. 탭 전환
+════════════════════════════════════════ */
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.getElementById(tab+'-page').classList.add('on');
+  if(tab==='bookmarks') renderBm();
+}
+
+/* ════════════════════════════════════════
+   16. 토스트
+════════════════════════════════════════ */
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),2200);
+}
+
+/* ════════════════════════════════════════
+   17. 초기화
+════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded',()=>{
+  S.history=['home'];
+  renderBooks();
+
+  // 홈 버튼
+  document.getElementById('btnHome').addEventListener('click',()=>{
+    switchTab('bible');showView('home');
+  });
+
+  // 뒤로가기
+  document.getElementById('btnBack').addEventListener('click',goBack);
+
+  // 구약/신약
+  document.querySelectorAll('.t-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.t-btn').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');S.testament=btn.dataset.t;renderBooks();
+    });
+  });
+
+  // 탭
+  document.querySelectorAll('.tab').forEach(btn=>{
+    btn.addEventListener('click',()=>switchTab(btn.dataset.tab));
+  });
+  document.getElementById('btnSearch').addEventListener('click',()=>switchTab('search'));
+  document.getElementById('btnBm').addEventListener('click',()=>switchTab('bookmarks'));
+
+  // AI 버튼들
+  document.getElementById('bookAiBtn').addEventListener('click',()=>openAiSheet('book',S.book));
+  document.getElementById('chapAiBtn').addEventListener('click',()=>openAiSheet('chapter'));
+  document.getElementById('hdrAiBtn').addEventListener('click',()=>openAiSheet('chapter'));
+
+  // 이전/다음 장 ← 핵심 수정: changeChapter() 호출
+  document.getElementById('prevBtn').addEventListener('click',()=>changeChapter(-1));
+  document.getElementById('nextBtn').addEventListener('click',()=>changeChapter(1));
+
+  // AI 시트 닫기
+  document.getElementById('shClose').addEventListener('click',closeSheet);
+  document.getElementById('overlay').addEventListener('click',closeSheet);
+
+  // 검색
+  document.getElementById('sGo').addEventListener('click',()=>doSearch(document.getElementById('sIn').value));
+  document.getElementById('sIn').addEventListener('keypress',e=>{if(e.key==='Enter')doSearch(e.target.value);});
+
+  // 북마크 전체 삭제
+  document.getElementById('clearBmBtn').addEventListener('click',()=>{
+    if(confirm('북마크를 전부 삭제할까요?')){
+      S.bookmarks=[];localStorage.removeItem('bm');toast('북마크 전체 삭제됨');
+    }
+  });
+});
+</script>
+</body>
+</html>
