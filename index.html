@@ -54,7 +54,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 }
 .hdr-title.logo-mode{letter-spacing:3px;font-size:20px}
 
-/* ─ 읽기 헤더용 AI 요약 버튼 ─ */
+/* 읽기 헤더용 AI 요약 버튼 */
 .hdr-ai-btn{
   display:flex;align-items:center;gap:5px;
   padding:6px 11px;border-radius:18px;
@@ -65,7 +65,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 }
 .hdr-ai-btn:hover{background:var(--amber);color:#fff}
 
-/* ═══ 탭바 ═══ */
+/* ═══ 탭바 (검색 탭 제거됨) ═══ */
 .tabbar{
   display:flex;background:var(--surface);
   border-bottom:1.5px solid var(--border);padding:0 8px;
@@ -74,7 +74,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .tab{
   flex:1;padding:12px 2px 10px;border:none;background:none;
   color:var(--text3);cursor:pointer;
-  font-family:'Noto Sans KR',sans-serif;font-size:12px;font-weight:500;
+  font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:600;
   border-bottom:2.5px solid transparent;transition:var(--tr);
 }
 .tab.on{color:var(--brown);border-bottom-color:var(--amber)}
@@ -92,17 +92,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .home-cross{font-size:32px;margin-bottom:8px;opacity:.7}
 .home-title{font-family:'Noto Serif KR',serif;font-size:28px;font-weight:700;color:var(--brown2);letter-spacing:4px;margin-bottom:6px}
 .home-sub{font-size:12px;color:var(--text3);letter-spacing:1px}
-
-/* AI 해설 안내 배너 */
-.ai-notice{
-  margin:14px 14px 0;
-  background:var(--amber-ll);border:1.5px solid var(--amber-l);
-  border-radius:var(--r);padding:14px 16px;
-  display:flex;gap:12px;align-items:flex-start;
-}
-.ai-notice-icon{font-size:20px;flex-shrink:0;margin-top:1px}
-.ai-notice-title{font-size:13px;font-weight:700;color:var(--brown2);margin-bottom:5px}
-.ai-notice-text{font-size:12px;color:var(--text2);line-height:1.65}
 
 /* 구약/신약 탭 */
 .testament-row{display:flex;gap:8px;padding:14px 14px 8px}
@@ -124,19 +113,11 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .book-card:hover{border-color:var(--amber);background:var(--amber-ll);transform:translateY(-2px);box-shadow:var(--sh2)}
 .book-abbr{font-family:'Noto Serif KR',serif;font-size:17px;font-weight:700;color:var(--brown2);display:block;margin-bottom:2px}
 .book-name{font-size:10px;color:var(--text3)}
-.book-ai-badge{
-  position:absolute;top:4px;right:4px;
-  background:var(--amber-ll);border:1px solid var(--amber-l);
-  border-radius:5px;color:var(--amber);font-size:9px;font-weight:700;
-  padding:2px 5px;opacity:0;transition:opacity .15s;
-  cursor:pointer;
-}
-.book-card:hover .book-ai-badge{opacity:1}
 
-/* ═══ 장 선택 화면 ═══ */
+/* ═══ 장/절 선택 화면 (모바일 가독성 개선 & 네모칸 축소) ═══ */
 .sec-header{
   display:flex;align-items:center;justify-content:space-between;
-  padding:14px 14px 8px;
+  padding:14px 14px 12px;
 }
 .sec-title{font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;color:var(--brown2)}
 .ai-pill{
@@ -147,54 +128,53 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   color:var(--amber);font-size:11px;font-weight:700;
   cursor:pointer;transition:var(--tr);white-space:nowrap;
 }
-.ai-pill:hover{background:var(--amber);color:#fff}
 
-.ch-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;padding:4px 12px 80px}
-.ch-btn{
-  aspect-ratio:1;border-radius:10px;
-  background:var(--surface);border:1.5px solid var(--border2);
-  color:var(--text2);cursor:pointer;font-size:14px;font-weight:500;
-  display:flex;align-items:center;justify-content:center;
-  transition:var(--tr);box-shadow:var(--sh);
+/* 핵심 수정: auto-fill과 minmax를 써서 모바일 화면에 맞게 작은 박스들이 촘촘히 배열되도록 함 */
+.ch-grid, .v-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(42px, 1fr)); 
+  gap: 8px;
+  padding: 4px 14px 80px;
 }
-.ch-btn:hover{background:var(--amber-ll);border-color:var(--amber);color:var(--brown2);transform:scale(1.06)}
-
-/* ═══ 절 선택 화면 ═══ */
-.v-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;padding:4px 12px 80px}
-.v-btn{
-  aspect-ratio:1;border-radius:10px;
-  background:var(--surface);border:1.5px solid var(--border2);
-  color:var(--text2);cursor:pointer;font-size:13px;
-  display:flex;align-items:center;justify-content:center;
-  transition:var(--tr);box-shadow:var(--sh);
+.ch-btn, .v-btn {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1.5px solid var(--border2);
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--tr); box-shadow: var(--sh);
 }
-.v-btn:hover{background:var(--amber-ll);border-color:var(--amber);color:var(--brown2)}
+.ch-btn:hover, .v-btn:hover {background:var(--amber-ll);border-color:var(--amber);color:var(--brown2);transform:scale(1.05)}
 
-/* ═══ 읽기 화면 ═══ */
-.verses-wrap{padding:10px 12px 90px}
+/* ═══ 읽기 화면 (모바일 가독성) ═══ */
+.verses-wrap{padding:14px 14px 90px}
 .verse-row{
-  display:flex;gap:10px;padding:9px 10px;border-radius:10px;
+  display:flex;gap:12px;padding:12px 10px;border-radius:10px;
   transition:background .2s,opacity .3s;cursor:pointer;
-  border-left:3px solid transparent;
+  border-left:3px solid transparent; margin-bottom: 6px;
 }
 .verse-row.hl{background:rgba(192,120,48,.08);border-left-color:var(--amber)}
-.verse-row.dim{opacity:.22}
+.verse-row.dim{opacity:.25}
 .verse-row:hover{background:rgba(192,120,48,.05)}
 .vn{
-  font-size:11px;color:var(--amber);font-weight:700;
-  min-width:20px;padding-top:4px;flex-shrink:0;text-align:right;
+  font-size:12px;color:var(--amber);font-weight:700;
+  min-width:22px;padding-top:5px;flex-shrink:0;text-align:right;
 }
 .vt{
   font-family:'Noto Serif KR',serif;
-  font-size:16px;line-height:1.88;color:var(--text);flex:1;word-break:keep-all;
+  font-size:17px;line-height:1.8;color:var(--text);flex:1;word-break:keep-all;
 }
-.v-acts{display:none;flex-direction:column;gap:4px;align-items:flex-end;flex-shrink:0;padding-top:3px}
+.v-acts{display:none;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0;padding-top:4px}
 .verse-row:hover .v-acts,.verse-row.hl .v-acts{display:flex}
 .v-act-btn{
   display:flex;align-items:center;gap:3px;
-  padding:4px 8px;border-radius:6px;
+  padding:6px 10px;border-radius:8px;
   background:var(--bg2);border:1.5px solid var(--border);
-  color:var(--text3);cursor:pointer;font-size:10px;font-weight:600;
+  color:var(--text3);cursor:pointer;font-size:11px;font-weight:600;
   transition:var(--tr);white-space:nowrap;
 }
 .v-act-btn:hover{background:var(--amber-ll);border-color:var(--amber);color:var(--amber)}
@@ -203,67 +183,42 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 /* 이전/다음 장 */
 .ch-nav{
   position:sticky;bottom:0;z-index:50;
-  display:flex;gap:8px;padding:10px 12px;
+  display:flex;gap:10px;padding:12px 14px;
   background:rgba(250,248,243,.96);backdrop-filter:blur(10px);
   border-top:1.5px solid var(--border);
 }
 .ch-nav-btn{
-  flex:1;padding:11px;border-radius:10px;
+  flex:1;padding:12px;border-radius:10px;
   background:var(--surface);border:1.5px solid var(--border);
-  color:var(--text2);cursor:pointer;font-size:13px;font-weight:500;
+  color:var(--text2);cursor:pointer;font-size:14px;font-weight:600;
   transition:var(--tr);
 }
 .ch-nav-btn:hover:not(:disabled){border-color:var(--amber);color:var(--brown);background:var(--amber-ll)}
 .ch-nav-btn:disabled{opacity:.3;cursor:default}
 
-/* ═══ 검색 ═══ */
-.s-bar{display:flex;gap:8px;padding:12px 12px;border-bottom:1.5px solid var(--border);background:var(--surface)}
-.s-in{
-  flex:1;background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;
-  color:var(--text);padding:10px 13px;font-size:14px;
-  font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .2s;
-}
-.s-in:focus{border-color:var(--amber);background:#fff}
-.s-go{
-  padding:10px 15px;border-radius:10px;
-  background:var(--brown2);border:none;color:#fff;
-  font-size:13px;font-weight:600;cursor:pointer;transition:var(--tr);
-}
-.s-go:hover{background:var(--brown)}
-.s-list{padding:10px 12px;display:flex;flex-direction:column;gap:6px}
-.s-item{
-  padding:12px 13px;background:var(--surface);
-  border:1.5px solid var(--border2);border-radius:var(--r);
-  cursor:pointer;box-shadow:var(--sh);transition:var(--tr);
-}
-.s-item:hover{border-color:var(--amber)}
-.s-ref{font-size:11px;color:var(--amber);font-weight:700;margin-bottom:3px}
-.s-txt{font-family:'Noto Serif KR',serif;font-size:14px;color:var(--text2);line-height:1.6}
-.s-txt mark{background:transparent;color:var(--brown2);font-weight:700}
-
 /* ═══ 북마크 ═══ */
-.bm-list{padding:12px 12px;display:flex;flex-direction:column;gap:7px}
+.bm-list{padding:14px;display:flex;flex-direction:column;gap:10px}
 .bm-item{
-  display:flex;align-items:flex-start;gap:11px;
-  padding:13px 14px;background:var(--surface);
+  display:flex;align-items:flex-start;gap:12px;
+  padding:14px;background:var(--surface);
   border:1.5px solid var(--border2);border-radius:var(--r);
   cursor:pointer;box-shadow:var(--sh);transition:var(--tr);
 }
 .bm-item:hover{border-color:var(--amber);box-shadow:var(--sh2)}
-.bm-ico{color:var(--amber);font-size:16px;flex-shrink:0;padding-top:2px}
-.bm-ref{font-size:11px;color:var(--amber);font-weight:700;margin-bottom:4px}
-.bm-txt{font-family:'Noto Serif KR',serif;font-size:14px;color:var(--text2);line-height:1.6;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.bm-del{width:26px;height:26px;border-radius:6px;background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--tr)}
+.bm-ico{color:var(--amber);font-size:18px;flex-shrink:0;padding-top:2px}
+.bm-ref{font-size:12px;color:var(--amber);font-weight:700;margin-bottom:6px}
+.bm-txt{font-family:'Noto Serif KR',serif;font-size:15px;color:var(--text2);line-height:1.6;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.bm-del{width:30px;height:30px;border-radius:8px;background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--tr)}
 .bm-del:hover{color:#e04;background:rgba(220,0,60,.08)}
 .empty-box{text-align:center;padding:60px 20px;color:var(--text3);font-family:'Noto Serif KR',serif}
 .empty-ico{font-size:42px;margin-bottom:12px;opacity:.3}
 
 /* ═══ 설정 ═══ */
-.set-sec{padding:14px 14px}
-.set-sec h4{font-size:11px;color:var(--text3);letter-spacing:2px;margin-bottom:10px;font-weight:600;text-transform:uppercase}
-.set-card{background:var(--surface);border:1.5px solid var(--border2);border-radius:var(--r);padding:14px 16px;margin-bottom:8px;box-shadow:var(--sh)}
-.set-card label{font-size:14px;color:var(--text);font-weight:500}
-.set-hint{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.55}
+.set-sec{padding:16px 14px}
+.set-sec h4{font-size:12px;color:var(--text3);letter-spacing:2px;margin-bottom:12px;font-weight:600;text-transform:uppercase}
+.set-card{background:var(--surface);border:1.5px solid var(--border2);border-radius:var(--r);padding:16px;margin-bottom:10px;box-shadow:var(--sh)}
+.set-card label{font-size:15px;color:var(--text);font-weight:600}
+.set-hint{font-size:12px;color:var(--text3);margin-top:6px;line-height:1.55}
 
 /* ═══ AI 시트 ═══ */
 .overlay{position:fixed;inset:0;background:rgba(40,28,12,.38);z-index:300;opacity:0;pointer-events:none;transition:opacity .3s}
@@ -271,24 +226,22 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .ai-sheet{
   position:fixed;bottom:0;left:0;right:0;z-index:310;
   background:var(--surface);
-  border-radius:20px 20px 0 0;
+  border-radius:24px 24px 0 0;
   border-top:2px solid var(--amber-l);
   box-shadow:0 -6px 40px rgba(80,50,10,.18);
   transform:translateY(108%);
   transition:transform .4s cubic-bezier(.32,1.2,.6,1);
-  max-height:74vh;display:flex;flex-direction:column;
+  max-height:80vh;display:flex;flex-direction:column;
   padding-bottom:env(safe-area-inset-bottom,16px);
 }
 .ai-sheet.on{transform:translateY(0)}
-.sh-handle{width:36px;height:4px;border-radius:2px;background:var(--border);margin:11px auto 0;flex-shrink:0}
-.sh-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 18px 9px;flex-shrink:0;border-bottom:1px solid var(--border2)}
-.sh-title-wrap{display:flex;flex-direction:column;gap:3px}
-.sh-title{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:700;color:var(--brown2)}
-.sh-badge{font-size:10px;color:var(--amber);font-weight:700;letter-spacing:.5px}
-.sh-close{width:30px;height:30px;border-radius:50%;background:var(--bg2);border:1.5px solid var(--border);color:var(--text3);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
-.sh-close:hover{background:var(--bg3);color:var(--text)}
-.sh-body{padding:14px 20px 20px;overflow-y:auto;flex:1;font-family:'Noto Serif KR',serif;font-size:15px;line-height:1.92;color:var(--text)}
-.sh-disclaimer{font-size:11px;color:var(--text3);margin-top:14px;padding-top:12px;border-top:1px solid var(--border2);line-height:1.6;font-family:'Noto Sans KR',sans-serif}
+.sh-handle{width:40px;height:5px;border-radius:3px;background:var(--border);margin:12px auto 0;flex-shrink:0}
+.sh-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 12px;flex-shrink:0;border-bottom:1px solid var(--border2)}
+.sh-title-wrap{display:flex;flex-direction:column;gap:4px}
+.sh-title{font-family:'Noto Serif KR',serif;font-size:17px;font-weight:700;color:var(--brown2)}
+.sh-badge{font-size:11px;color:var(--amber);font-weight:700;letter-spacing:.5px}
+.sh-close{width:32px;height:32px;border-radius:50%;background:var(--bg2);border:1.5px solid var(--border);color:var(--text3);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
+.sh-body{padding:16px 20px 24px;overflow-y:auto;flex:1;font-family:'Noto Serif KR',serif;font-size:16px;line-height:1.9;color:var(--text)}
 
 .dots{display:inline-flex;gap:5px;align-items:center}
 .dots span{width:7px;height:7px;border-radius:50%;background:var(--amber);animation:db .9s infinite ease-in-out}
@@ -297,9 +250,9 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 
 /* ═══ 토스트 ═══ */
 .toast{
-  position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(14px);
+  position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(14px);
   background:var(--brown2);border-radius:20px;color:#fff;
-  padding:9px 20px;font-size:13px;font-weight:500;
+  padding:10px 24px;font-size:14px;font-weight:500;
   z-index:400;opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap;
   box-shadow:0 4px 16px rgba(44,28,8,.2);
 }
@@ -312,41 +265,27 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 </head>
 <body>
 
-<!-- ══════════ 헤더 ══════════ -->
 <div class="hdr" id="hdr">
   <button class="hdr-btn" id="btnHome" title="홈">🏠</button>
   <button class="hdr-btn" id="btnBack" title="뒤로" disabled>←</button>
   <div class="hdr-title logo-mode" id="hdrTitle">✝ 말씀</div>
-  <button class="hdr-ai-btn" id="hdrAiBtn" style="display:none">✨ 장 요약</button>
-  <button class="hdr-btn" id="btnSearch" title="검색">🔍</button>
+  <button class="hdr-ai-btn" id="hdrAiBtn" style="display:none">✨ 상황별 AI 요약</button>
   <button class="hdr-btn" id="btnBm" title="북마크">🔖</button>
 </div>
 
-<!-- ══════════ 탭바 ══════════ -->
 <div class="tabbar">
   <button class="tab on" data-tab="bible">성경</button>
-  <button class="tab" data-tab="search">검색</button>
   <button class="tab" data-tab="bookmarks">북마크</button>
   <button class="tab" data-tab="settings">설정</button>
 </div>
 
-<!-- ══════════ 성경 탭 ══════════ -->
 <div id="bible-page" class="page on">
+
   <div id="vHome">
     <div class="home-hero">
       <div class="home-cross">✝</div>
       <div class="home-title">말씀</div>
-      <div class="home-sub">개역성경(KRV)</div>
-    </div>
-
-    <div class="ai-notice">
-      <div class="ai-notice-icon">💬</div>
-      <div class="ai-notice-body">
-        <div class="ai-notice-title">AI 해설 안내</div>
-        <div class="ai-notice-text">
-          본 앱의 AI 해설은 <strong>교리나 신학적 판단이 아닌</strong>, 성경 속 <strong>인물·지명·사건·언어</strong>를 이해하기 위한 <strong>이야기(스토리) 중심의 설명</strong>입니다.
-        </div>
-      </div>
+      <div class="home-sub">개역한글 성경 (KRV)</div>
     </div>
 
     <div class="testament-row">
@@ -359,7 +298,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   <div id="vChapter" style="display:none">
     <div class="sec-header">
       <div class="sec-title" id="chTitle">창세기 — 장 선택</div>
-      <button class="ai-pill" id="bookAiBtn">✨ 이 책 요약</button>
+      <button class="ai-pill" id="bookAiBtn">✨ 이 책 스토리 요약</button>
     </div>
     <div class="ch-grid" id="chGrid"></div>
   </div>
@@ -367,7 +306,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   <div id="vVerse" style="display:none">
     <div class="sec-header">
       <div class="sec-title" id="vTitle">창세기 1장 — 절 선택</div>
-      <button class="ai-pill" id="chapAiBtn">✨ 이 장 요약</button>
+      <button class="ai-pill" id="chapAiBtn">✨ 이 장 핵심 요약</button>
     </div>
     <div class="v-grid" id="vGrid"></div>
   </div>
@@ -379,37 +318,19 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
       <button class="ch-nav-btn" id="nextBtn">다음 장 ›</button>
     </div>
   </div>
+
 </div>
 
-<!-- ══════════ 검색 탭 ══════════ -->
-<div id="search-page" class="page">
-  <div class="s-bar">
-    <input class="s-in" id="sIn" placeholder="전체 성경 검색 (예: 태초에, 사랑, 두려워 말라)">
-    <button class="s-go" id="sGo">검색</button>
-  </div>
-  <div id="sResults" class="s-list"></div>
-</div>
-
-<!-- ══════════ 북마크 탭 ══════════ -->
 <div id="bookmarks-page" class="page">
   <div class="bm-list" id="bmList"></div>
 </div>
 
-<!-- ══════════ 설정 탭 ══════════ -->
 <div id="settings-page" class="page">
   <div class="set-sec">
     <h4>앱 정보</h4>
     <div class="set-card">
-      <label>성경 번역본</label>
-      <div class="set-hint">개역성경(KRV) — 공개 도메인 데이터</div>
-    </div>
-    <div class="set-card">
-      <label>AI 해설</label>
-      <div class="set-hint">Cloudflare Workers + Google Gemini API (스토리 중심)</div>
-    </div>
-    <div class="set-card">
       <label>데이터 출처</label>
-      <div class="set-hint">성경 본문: api.getbible.net (korean)<br>AI 해설: Cloudflare Workers</div>
+      <div class="set-hint">Cloudflare KV 스토리지에서 본문을 불러옵니다.</div>
     </div>
   </div>
   <div class="set-sec">
@@ -419,19 +340,18 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
         <label>북마크 전체 삭제</label>
         <div class="set-hint">저장된 모든 북마크를 삭제합니다</div>
       </div>
-      <button id="clearBmBtn" style="padding:8px 14px;border-radius:8px;background:#fee;border:1.5px solid #fcc;color:#c33;font-size:12px;font-weight:600;cursor:pointer">삭제</button>
+      <button id="clearBmBtn" style="padding:10px 16px;border-radius:10px;background:#fee;border:1.5px solid #fcc;color:#c33;font-size:13px;font-weight:700;cursor:pointer">삭제</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════ AI 시트 ══════════ -->
 <div class="overlay" id="overlay"></div>
 <div class="ai-sheet" id="aiSheet">
   <div class="sh-handle"></div>
   <div class="sh-hdr">
     <div class="sh-title-wrap">
-      <div class="sh-title" id="shTitle">AI 해설</div>
-      <div class="sh-badge" id="shBadge">스토리 중심 해설</div>
+      <div class="sh-title" id="shTitle">AI 맞춤 해설</div>
+      <div class="sh-badge" id="shBadge">상황별 요약</div>
     </div>
     <button class="sh-close" id="shClose">✕</button>
   </div>
@@ -442,9 +362,9 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 
 <script>
 /* ════════════════════════════════════════
-   1. 성경 66권 절 수 데이터 (KRV)
+   1. 원본 복구: 성경 66권 전체 절 수 (KRV)
 ════════════════════════════════════════ */
-const VC = { /* (사용자 코드 그대로) */ 
+const VC = {
   gen:[31,25,24,26,32,22,24,22,29,32,32,20,18,24,21,16,27,33,38,18,34,24,20,67,34,35,46,22,35,43,55,32,20,31,29,43,36,30,23,23,57,38,34,34,28,34,31,22,33,26],
   exo:[22,25,22,31,23,30,25,32,35,29,10,51,22,31,27,36,16,27,25,26,36,31,33,18,40,37,21,43,46,38,18,35,23,35,35,38,29,31,43,38],
   lev:[17,16,17,35,19,30,38,36,24,20,47,8,59,57,33,34,16,30,24,16,34,4,24,16,24,5,26,5,6,30],
@@ -495,7 +415,7 @@ const VC = { /* (사용자 코드 그대로) */
 };
 
 /* ════════════════════════════════════════
-   2. 책 목록
+   2. 원본 복구: 66권 책 목록
 ════════════════════════════════════════ */
 const BOOKS=[
   {id:"gen",name:"창세기",abbr:"창",t:"old"},{id:"exo",name:"출애굽기",abbr:"출",t:"old"},
@@ -531,22 +451,18 @@ const BOOKS=[
   {id:"1pe",name:"베드로전서",abbr:"벧전",t:"new"},{id:"2pe",name:"베드로후서",abbr:"벧후",t:"new"},
   {id:"1jn",name:"요한1서",abbr:"요일",t:"new"},{id:"2jn",name:"요한2서",abbr:"요이",t:"new"},
   {id:"3jn",name:"요한3서",abbr:"요삼",t:"new"},{id:"jud",name:"유다서",abbr:"유",t:"new"},
-  {id:"rev",name:"요한계시록",abbr:"계",t:"new"},
+  {id:"rev",name:"요한계시록",abbr:"계",t:"new"}
 ];
 
 /* ════════════════════════════════════════
-   3. 앱 상태
+   3. 앱 상태 및 뷰 관리
 ════════════════════════════════════════ */
 const S={
   testament:'old',
   book:null, chapter:null, verse:null,
   cache:{},
   bookmarks:JSON.parse(localStorage.getItem('bm')||'[]'),
-
-  // ✅ 여기만 네 Worker 주소로 바꾸면 됨
-  // 예: https://your-worker-name.your-subdomain.workers.dev
-  workerUrl: 'https://bible-ai-worker.username.workers.dev',
-
+  workerUrl: '%%WORKER_URL%%',   // ← 배포 시 Cloudflare Worker 주소로 교체
   history:[],
 };
 
@@ -568,7 +484,7 @@ function showView(name, pushHistory=true){
     hdrTitle.textContent='✝ 말씀';
     hdrTitle.className='hdr-title logo-mode';
     hdrAi.style.display='none';
-    S.history=['home'];
+    S.history=['home']; 
     btnBack.disabled=true;
   } else if(name==='chapter'){
     hdrTitle.textContent=S.book.name;
@@ -595,23 +511,18 @@ function goBack(){
 }
 
 /* ════════════════════════════════════════
-   4. 책 목록
+   4. 책 / 장 / 절 렌더링
 ════════════════════════════════════════ */
 function renderBooks(){
   const grid=document.getElementById('bookGrid');
   grid.innerHTML=BOOKS.filter(b=>b.t===S.testament).map(b=>`
     <div class="book-card" data-id="${b.id}">
-      <span class="book-ai-badge" data-id="${b.id}">AI 요약</span>
       <span class="book-abbr">${b.abbr}</span>
       <span class="book-name">${b.name}</span>
     </div>`).join('');
 
   grid.querySelectorAll('.book-card').forEach(card=>{
-    card.addEventListener('click',e=>{
-      const badge=e.target.closest('.book-ai-badge');
-      if(badge){e.stopPropagation();openAiSheet('book',BOOKS.find(b=>b.id===badge.dataset.id));return;}
-      goBook(BOOKS.find(b=>b.id===card.dataset.id));
-    });
+    card.addEventListener('click',()=>goBook(BOOKS.find(b=>b.id===card.dataset.id)));
   });
 }
 
@@ -653,34 +564,41 @@ function renderVerseNums(count){
 }
 
 /* ════════════════════════════════════════
-   5. 본문 로드
+   5. Cloudflare KV 통신 및 본문 렌더링
 ════════════════════════════════════════ */
 async function fetchCh(bookId,ch){
   const key=`${bookId}_${ch}`;
   if(S.cache[key]) return S.cache[key];
-  const idx=BOOKS.findIndex(b=>b.id===bookId)+1;
-  try{
-    const r=await fetch(`https://api.getbible.net/v2/korean/${idx}/${ch}.json`);
-    if(!r.ok) throw new Error('net');
-    const data=await r.json();
-    const verses=Object.keys(data.verses).sort((a,b)=>+a-+b).map(k=>data.verses[k].verse);
-    S.cache[key]=verses; return verses;
-  }catch{
-    const n=VC[bookId][ch-1];
-    return Array.from({length:n},(_,i)=>`(${i+1}절 — 네트워크 오류. 인터넷 연결을 확인하세요.)`);
+  
+  // Cloudflare KV Worker 호출
+  const workerUrl=S.workerUrl;
+  if(workerUrl && workerUrl!=='%%WORKER_URL%%'){
+    try{
+      const r=await fetch(`${workerUrl}/bible?book=${bookId}&chapter=${ch}`);
+      if(!r.ok) throw new Error('worker err');
+      const data=await r.json();
+      if(data.verses && data.verses.length){
+        S.cache[key]=data.verses; return data.verses;
+      }
+    }catch(e){
+      console.warn('Worker 로드 실패:', e);
+    }
   }
+
+  // 폴백: Worker 연결 안 될 시 임시 텍스트
+  const n=VC[bookId][ch-1];
+  return Array.from({length:n},(_,i)=>`(${i+1}절 — 본문을 불러오지 못했습니다. Worker 연결을 확인해주세요.)`);
 }
 
 async function loadAndRead(ch, targetVerse){
   S.chapter=ch; S.verse=targetVerse;
-
   document.getElementById('hdrTitle').textContent=`${S.book.name} ${ch}장`;
 
   showView('read');
   document.getElementById('versesWrap').innerHTML=
     `<div style="padding:40px;text-align:center;color:var(--text3)">
        <div class="dots"><span></span><span></span><span></span></div>
-       <div style="margin-top:10px;font-size:14px">본문 불러오는 중…</div>
+       <div style="margin-top:14px;font-size:15px">말씀 사물함(KV)에서 꺼내는 중…</div>
      </div>`;
   updateNavBtns();
 
@@ -688,14 +606,11 @@ async function loadAndRead(ch, targetVerse){
   renderVerses(verses, targetVerse);
 
   setTimeout(()=>{
-    const el=document.querySelector(\`.verse-row[data-v="\${targetVerse}"]\`);
+    const el=document.querySelector(`.verse-row[data-v="${targetVerse}"]`);
     if(el){el.scrollIntoView({behavior:'smooth',block:'center'});applyDim(targetVerse);}
   },80);
 }
 
-/* ════════════════════════════════════════
-   6. 절 렌더/북마크
-════════════════════════════════════════ */
 function isBm(v){return S.bookmarks.some(b=>b.bid===S.book.id&&b.ch===S.chapter&&b.v===v)}
 
 function renderVerses(verses, hl){
@@ -703,10 +618,10 @@ function renderVerses(verses, hl){
     const v=i+1, bm=isBm(v);
     return `<div class="verse-row${v===hl?' hl':''}" data-v="${v}">
       <span class="vn">${v}</span>
-      <span class="vt">${escapeHTML(text)}</span>
+      <span class="vt">${text}</span>
       <div class="v-acts">
         <button class="v-act-btn${bm?' bm-on':''}" data-act="bm" data-v="${v}">🔖 북마크</button>
-        <button class="v-act-btn" data-act="ai" data-v="${v}">✨ AI 해설</button>
+        <button class="v-act-btn" data-act="ai" data-v="${v}">✨ 구절 요약</button>
       </div>
     </div>`;
   }).join('');
@@ -736,12 +651,14 @@ function applyDim(tv){
     window.addEventListener('touchmove',cancel,{once:true});
   },500);
 }
+
 function highlightV(v){
   document.querySelectorAll('.verse-row').forEach(r=>r.classList.remove('hl','dim'));
-  const r=document.querySelector(\`.verse-row[data-v="\${v}"]\`);
+  const r=document.querySelector(`.verse-row[data-v="${v}"]`);
   if(r) r.classList.add('hl');
   S.verse=v;
 }
+
 function updateNavBtns(){
   const total=VC[S.book.id].length;
   document.getElementById('prevBtn').disabled=S.chapter<=1;
@@ -760,9 +677,7 @@ async function changeChapter(delta){
   document.getElementById('versesWrap').innerHTML=
     `<div style="padding:40px;text-align:center;color:var(--text3)">
        <div class="dots"><span></span><span></span><span></span></div>
-       <div style="margin-top:10px;font-size:14px">본문 불러오는 중…</div>
      </div>`;
-  document.getElementById('versesWrap').scrollTop=0;
   window.scrollTo(0,0);
 
   const verses=await fetchCh(S.book.id,newCh);
@@ -771,6 +686,9 @@ async function changeChapter(delta){
   S.history.push('read');
 }
 
+/* ════════════════════════════════════════
+   6. 북마크
+════════════════════════════════════════ */
 function toggleBm(v,btn){
   const idx=S.bookmarks.findIndex(b=>b.bid===S.book.id&&b.ch===S.chapter&&b.v===v);
   if(idx>=0){
@@ -782,6 +700,7 @@ function toggleBm(v,btn){
   }
   localStorage.setItem('bm',JSON.stringify(S.bookmarks));
 }
+
 function renderBm(){
   const list=document.getElementById('bmList');
   if(!S.bookmarks.length){
@@ -792,7 +711,7 @@ function renderBm(){
       <div class="bm-ico">🔖</div>
       <div style="flex:1;min-width:0">
         <div class="bm-ref">${b.bookName} ${b.ch}:${b.v}</div>
-        <div class="bm-txt">${escapeHTML(b.text)}</div>
+        <div class="bm-txt">${b.text}</div>
       </div>
       <button class="bm-del" data-i="${i}">✕</button>
     </div>`).join('');
@@ -810,7 +729,7 @@ function renderBm(){
 }
 
 /* ════════════════════════════════════════
-   7. AI 시트 (Worker /ai)
+   7. AI 통신 로직 (사물함 연동용)
 ════════════════════════════════════════ */
 async function openAiSheet(type,bookObj=null,vNum=null){
   const sheet=document.getElementById('aiSheet');
@@ -819,73 +738,42 @@ async function openAiSheet(type,bookObj=null,vNum=null){
   const badge=document.getElementById('shBadge');
   const body=document.getElementById('shBody');
 
-  const STORY_SYSTEM=`당신은 성경 이야기 안내자입니다.
-교리적 해석이나 신앙적 판단은 절대 하지 않습니다.
-오직 스토리, 역사, 언어, 문화적 관점에서 설명합니다.
-- 등장인물이 누구인지
-- 어떤 사건이 일어났는지
-- 지명이 어디인지
-- 단어나 표현 뜻
-- 시대적·문화적 배경
-모든 답변은 한국어로, 쉬운 말로 작성합니다.`;
-
   let prompt='';
   if(type==='book'){
     title.textContent=`${bookObj.name} 이야기`;
-    badge.textContent='권 전체 스토리 안내';
-    prompt=`성경 "${bookObj.name}"에 대해 스토리 관점에서 안내해주세요.
-1) 언제/어디/누구 이야기?
-2) 주요 인물
-3) 핵심 사건 줄거리
-4) 어려운 지명/단어
-교리 해석은 하지 말고 400자 이내.`;
+    prompt=`${bookObj.name} 전체 스토리를 짧고 이해하기 쉽게 요약해줘.`;
   }else if(type==='chapter'){
     title.textContent=`${S.book.name} ${S.chapter}장`;
-    badge.textContent='장 스토리 안내';
-    prompt=`성경 개역성경 ${S.book.name} ${S.chapter}장의 이야기를 안내해주세요.
-1) 무슨 사건?
-2) 주요 인물/역할
-3) 지명/어려운 단어
-교리 해석은 하지 말고 300자 이내.`;
+    prompt=`${S.book.name} ${S.chapter}장의 상황을 요약해줘.`;
   }else if(type==='verse'){
     const verses=S.cache[`${S.book.id}_${S.chapter}`]||[];
     const text=verses[vNum-1]||'';
     title.textContent=`${S.book.name} ${S.chapter}:${vNum}`;
-    badge.textContent='절 스토리·언어 해설';
-    prompt=`성경 개역성경 ${S.book.name} ${S.chapter}장 ${vNum}절을 해설해주세요.
-구절: "${text}"
-1) 인물/대상은 누구/무엇?
-2) 어떤 상황?
-3) 단어/표현 설명
-4) 전후 맥락
-교리 해석은 하지 말고 400자 이내.`;
+    prompt=`"${text}" 이 구절의 상황적 배경과 핵심 의미를 이해하기 쉽게 요약해줘.`;
   }
 
-  body.innerHTML=`<div style="display:flex;align-items:center;gap:10px;color:var(--text3);padding:8px 0"><div class="dots"><span></span><span></span><span></span></div> 분석 중입니다…</div>`;
+  body.innerHTML=`<div style="display:flex;align-items:center;gap:10px;color:var(--text3);padding:8px 0"><div class="dots"><span></span><span></span><span></span></div> 상황 요약 중입니다…</div>`;
   sheet.classList.add('on');ov.classList.add('on');
 
-  const result=await callWorkerAI(STORY_SYSTEM, prompt);
-  body.innerHTML=
-    result.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')+
-    `<div class="sh-disclaimer">⚠️ 참고용 해설입니다. AI가 생성한 내용으로 오류가 있을 수 있습니다.</div>`;
+  const result=await callWorkerAI(prompt);
+  body.innerHTML=result.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
 }
 
-async function callWorkerAI(system, prompt){
-  const base=S.workerUrl;
-  if(!base || base==='https://bible-ai-worker.username.workers.dev'){
-    return '⚠️ <strong>Worker URL이 아직 설정되지 않았습니다.</strong><br><br>HTML의 <code>workerUrl</code> 값을 네 Worker 주소로 바꿔주세요.';
+async function callWorkerAI(prompt){
+  const url=S.workerUrl;
+  if(!url||url==='%%WORKER_URL%%'){
+    return '⚠️ <strong>Worker URL이 설정되지 않았습니다.</strong><br><br>코드 안의 <code>%%WORKER_URL%%</code> 부분을 클라우드플레어 주소로 교체해주세요.';
   }
   try{
-    const r=await fetch(base.replace(/\/$/,'') + '/ai',{
+    const r=await fetch(`${url}/ai`,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({system,prompt})
+      body:JSON.stringify({prompt})
     });
     const d=await r.json();
-    if(!r.ok || !d.ok) throw new Error(d.error || `HTTP ${r.status}`);
-    return d.text || '응답을 받지 못했습니다.';
+    return d.text||'응답을 받지 못했습니다.';
   }catch(e){
-    return `❌ 연결 실패: ${escapeHTML(e.message)}`;
+    return `❌ 연결 실패: Worker가 실행 중인지 확인하세요.`;
   }
 }
 
@@ -895,70 +783,7 @@ function closeSheet(){
 }
 
 /* ════════════════════════════════════════
-   8. 검색 (✅ 전체 성경 검색: Worker /search)
-════════════════════════════════════════ */
-async function doSearch(q){
-  q = (q||'').trim();
-  if(!q) return;
-
-  const res=document.getElementById('sResults');
-  res.innerHTML = `<div style="padding:28px;text-align:center;color:var(--text3);font-size:14px">
-    <div class="dots" style="justify-content:center"><span></span><span></span><span></span></div>
-    <div style="margin-top:10px">전체 성경에서 검색 중…</div>
-  </div>`;
-
-  const base=S.workerUrl;
-  if(!base || base==='https://bible-ai-worker.username.workers.dev'){
-    res.innerHTML=`<div style="padding:30px;text-align:center;color:var(--text3);font-size:14px">
-      Worker URL이 설정되지 않았습니다.<br>
-      <small style="font-size:12px;display:block;margin-top:6px">HTML의 workerUrl 값을 네 Worker 주소로 바꿔주세요.</small>
-    </div>`;
-    return;
-  }
-
-  try{
-    const url = base.replace(/\/$/,'') + `/search?q=${encodeURIComponent(q)}&limit=50`;
-    const r=await fetch(url);
-    const d=await r.json();
-    if(!r.ok || !d.ok) throw new Error(d.error || `HTTP ${r.status}`);
-
-    const list = d.results || [];
-    if(!list.length){
-      res.innerHTML=`<div style="padding:30px;text-align:center;color:var(--text3);font-size:14px">
-        검색 결과 없음<br>
-        <small style="font-size:12px;margin-top:6px;display:block">다른 단어로 다시 검색해보세요</small>
-      </div>`;
-      return;
-    }
-
-    res.innerHTML = list.map((it,i)=>`
-      <div class="s-item" data-i="${i}">
-        <div class="s-ref">${escapeHTML(it.bookName)} ${it.ch}:${it.v}</div>
-        <div class="s-txt">${highlightHTML(it.text, q)}</div>
-      </div>
-    `).join('');
-
-    res.querySelectorAll('.s-item').forEach((item,i)=>{
-      item.addEventListener('click',()=>{
-        const hit=list[i];
-        const bk=BOOKS.find(b=>b.id===hit.bid) || BOOKS.find(b=>b.name===hit.bookName);
-        if(!bk) return;
-        goBook(bk);
-        goChapter(hit.ch, hit.v);
-        switchTab('bible');
-      });
-    });
-
-  }catch(e){
-    res.innerHTML=`<div style="padding:30px;text-align:center;color:var(--text3);font-size:14px">
-      검색 실패<br>
-      <small style="font-size:12px;margin-top:6px;display:block">${escapeHTML(e.message)}</small>
-    </div>`;
-  }
-}
-
-/* ════════════════════════════════════════
-   9. 탭/토스트/유틸
+   8. 탭 전환 및 초기화
 ════════════════════════════════════════ */
 function switchTab(tab){
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
@@ -973,25 +798,6 @@ function toast(msg){
   setTimeout(()=>t.classList.remove('on'),2200);
 }
 
-function escapeHTML(s){
-  return (s||'').toString()
-    .replaceAll('&','&amp;')
-    .replaceAll('<','&lt;')
-    .replaceAll('>','&gt;')
-    .replaceAll('"','&quot;')
-    .replaceAll("'","&#039;");
-}
-
-function highlightHTML(text, q){
-  const safe = escapeHTML(text);
-  const safeQ = escapeHTML(q);
-  // 너무 정교한 regex는 느려질 수 있어 단순 분할 방식 사용
-  return safe.split(safeQ).join(`<mark>${safeQ}</mark>`);
-}
-
-/* ════════════════════════════════════════
-   10. 초기화
-════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded',()=>{
   S.history=['home'];
   renderBooks();
@@ -1011,9 +817,11 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.querySelectorAll('.tab').forEach(btn=>{
     btn.addEventListener('click',()=>switchTab(btn.dataset.tab));
   });
-  document.getElementById('btnSearch').addEventListener('click',()=>switchTab('search'));
+  
+  // 북마크 탭으로 이동
   document.getElementById('btnBm').addEventListener('click',()=>switchTab('bookmarks'));
 
+  // AI 요약 버튼 연동
   document.getElementById('bookAiBtn').addEventListener('click',()=>openAiSheet('book',S.book));
   document.getElementById('chapAiBtn').addEventListener('click',()=>openAiSheet('chapter'));
   document.getElementById('hdrAiBtn').addEventListener('click',()=>openAiSheet('chapter'));
@@ -1024,13 +832,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('shClose').addEventListener('click',closeSheet);
   document.getElementById('overlay').addEventListener('click',closeSheet);
 
-  document.getElementById('sGo').addEventListener('click',()=>doSearch(document.getElementById('sIn').value));
-  document.getElementById('sIn').addEventListener('keypress',e=>{if(e.key==='Enter')doSearch(e.target.value);});
-
   document.getElementById('clearBmBtn').addEventListener('click',()=>{
     if(confirm('북마크를 전부 삭제할까요?')){
       S.bookmarks=[];localStorage.removeItem('bm');toast('북마크 전체 삭제됨');
-      if(document.getElementById('bookmarks-page').classList.contains('on')) renderBm();
+      renderBm();
     }
   });
 });
