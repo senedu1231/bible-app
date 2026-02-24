@@ -551,7 +551,7 @@ const S={
   book:null, chapter:null, verse:null,
   cache:{},
   bookmarks:JSON.parse(localStorage.getItem('bm')||'[]'),
-  workerUrl: 'https://bible-ai-worker.hdh1231.workers.dev',   // ← 배포 시 실제 주소로 교체
+  workerUrl: 'worker.hdh1231.workers.dev',   // ← 배포 시 실제 주소로 교체
   // 뷰 히스토리 스택 (뒤로가기용)
   history:[],   // 'home'|'chapter'|'verse'|'read'
 };
@@ -676,6 +676,23 @@ async function fetchCh(bookId,ch){
   const key=`${bookId}_${ch}`;
   if(S.cache[key]) return S.cache[key];
   const idx=BOOKS.findIndex(b=>b.id===bookId)+1;
+
+  // Worker를 통해 가져오기 (CORS 우회)
+  const workerUrl=S.workerUrl;
+  if(workerUrl && workerUrl!=='worker.hdh1231.workers.dev'){
+    try{
+      const r=await fetch(`${workerUrl}/bible?book=${idx}&chapter=${ch}`);
+      if(!r.ok) throw new Error('worker err');
+      const data=await r.json();
+      if(data.verses && data.verses.length){
+        S.cache[key]=data.verses; return data.verses;
+      }
+    }catch(e){
+      console.warn('Worker 성경 로드 실패, 직접 시도:', e);
+    }
+  }
+
+  // 직접 호출 폴백
   try{
     const r=await fetch(`https://api.getbible.net/v2/korean/${idx}/${ch}.json`);
     if(!r.ok) throw new Error('net');
@@ -684,7 +701,7 @@ async function fetchCh(bookId,ch){
     S.cache[key]=verses; return verses;
   }catch{
     const n=VC[bookId][ch-1];
-    return Array.from({length:n},(_,i)=>`(${i+1}절 — 네트워크 오류. 인터넷 연결을 확인하세요.)`);
+    return Array.from({length:n},(_,i)=>`(${i+1}절 — 본문을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.)`);
   }
 }
 
@@ -886,8 +903,8 @@ async function openAiSheet(type,bookObj=null,vNum=null){
 
 async function callWorker(system, prompt){
   const url=S.workerUrl;
-  if(!url||url==='https://bible-ai-worker.hdh1231.workers.dev'){
-    return '⚠️ <strong>Worker URL이 설정되지 않았습니다.</strong><br><br>배포 가이드를 참고하여 Cloudflare Worker를 배포하고, worker.js의 <code>https://bible-ai-worker.hdh1231.workers.dev</code> 부분을 실제 주소로 교체하세요.';
+  if(!url||url==='worker.hdh1231.workers.dev'){
+    return '⚠️ <strong>Worker URL이 설정되지 않았습니다.</strong><br><br>배포 가이드를 참고하여 Cloudflare Worker를 배포하고, worker.js의 <code>worker.hdh1231.workers.dev</code> 부분을 실제 주소로 교체하세요.';
   }
   try{
     const r=await fetch(url,{
