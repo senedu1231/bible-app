@@ -101,7 +101,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   display:flex;gap:12px;align-items:flex-start;
 }
 .ai-notice-icon{font-size:20px;flex-shrink:0;margin-top:1px}
-.ai-notice-body{}
 .ai-notice-title{font-size:13px;font-weight:700;color:var(--brown2);margin-bottom:5px}
 .ai-notice-text{font-size:12px;color:var(--text2);line-height:1.65}
 
@@ -318,7 +317,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   <button class="hdr-btn" id="btnHome" title="홈">🏠</button>
   <button class="hdr-btn" id="btnBack" title="뒤로" disabled>←</button>
   <div class="hdr-title logo-mode" id="hdrTitle">✝ 말씀</div>
-  <!-- 읽기 모드에서만 보이는 요약 버튼 -->
   <button class="hdr-ai-btn" id="hdrAiBtn" style="display:none">✨ 장 요약</button>
   <button class="hdr-btn" id="btnSearch" title="검색">🔍</button>
   <button class="hdr-btn" id="btnBm" title="북마크">🔖</button>
@@ -334,22 +332,19 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 
 <!-- ══════════ 성경 탭 ══════════ -->
 <div id="bible-page" class="page on">
-
-  <!-- 뷰 A: 홈 (책 목록) -->
   <div id="vHome">
     <div class="home-hero">
       <div class="home-cross">✝</div>
       <div class="home-title">말씀</div>
-      <div class="home-sub">개역한글 성경 (KRV)</div>
+      <div class="home-sub">개역성경(KRV)</div>
     </div>
 
-    <!-- AI 해설 안내 배너 -->
     <div class="ai-notice">
       <div class="ai-notice-icon">💬</div>
       <div class="ai-notice-body">
         <div class="ai-notice-title">AI 해설 안내</div>
         <div class="ai-notice-text">
-          본 앱의 AI 해설은 <strong>교리나 신학적 판단이 아닌</strong>, 성경 속 <strong>인물·지명·사건·언어</strong>를 이해하기 위한 <strong>이야기(스토리) 중심의 설명</strong>입니다. "이 사람은 누구인가", "여기서 무슨 일이 일어났는가", "이 단어는 무슨 뜻인가"에 초점을 맞추며, 신앙적 해석은 독자 각자의 몫으로 남겨둡니다.
+          본 앱의 AI 해설은 <strong>교리나 신학적 판단이 아닌</strong>, 성경 속 <strong>인물·지명·사건·언어</strong>를 이해하기 위한 <strong>이야기(스토리) 중심의 설명</strong>입니다.
         </div>
       </div>
     </div>
@@ -361,7 +356,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     <div class="book-grid" id="bookGrid"></div>
   </div>
 
-  <!-- 뷰 B: 장 선택 -->
   <div id="vChapter" style="display:none">
     <div class="sec-header">
       <div class="sec-title" id="chTitle">창세기 — 장 선택</div>
@@ -370,7 +364,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     <div class="ch-grid" id="chGrid"></div>
   </div>
 
-  <!-- 뷰 C: 절 선택 -->
   <div id="vVerse" style="display:none">
     <div class="sec-header">
       <div class="sec-title" id="vTitle">창세기 1장 — 절 선택</div>
@@ -379,7 +372,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     <div class="v-grid" id="vGrid"></div>
   </div>
 
-  <!-- 뷰 D: 읽기 -->
   <div id="vRead" style="display:none">
     <div class="verses-wrap" id="versesWrap"></div>
     <div class="ch-nav">
@@ -387,13 +379,12 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
       <button class="ch-nav-btn" id="nextBtn">다음 장 ›</button>
     </div>
   </div>
-
 </div>
 
 <!-- ══════════ 검색 탭 ══════════ -->
 <div id="search-page" class="page">
   <div class="s-bar">
-    <input class="s-in" id="sIn" placeholder="구절 검색 (예: 태초에, 사랑하라)">
+    <input class="s-in" id="sIn" placeholder="전체 성경 검색 (예: 태초에, 사랑, 두려워 말라)">
     <button class="s-go" id="sGo">검색</button>
   </div>
   <div id="sResults" class="s-list"></div>
@@ -410,15 +401,15 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     <h4>앱 정보</h4>
     <div class="set-card">
       <label>성경 번역본</label>
-      <div class="set-hint">개역한글(KRV) — 공개 도메인 성경 데이터 사용</div>
+      <div class="set-hint">개역성경(KRV) — 공개 도메인 데이터</div>
     </div>
     <div class="set-card">
       <label>AI 해설</label>
-      <div class="set-hint">Google Gemini 2.0 Flash 모델을 사용하여 성경 본문의 인물·사건·지명·언어를 이야기 중심으로 설명합니다. 교리적 판단은 포함하지 않습니다.</div>
+      <div class="set-hint">Cloudflare Workers + Google Gemini API (스토리 중심)</div>
     </div>
     <div class="set-card">
       <label>데이터 출처</label>
-      <div class="set-hint">성경 본문: api.getbible.net (개역한글)<br>AI 해설: Cloudflare Workers + Google Gemini API</div>
+      <div class="set-hint">성경 본문: api.getbible.net (korean)<br>AI 해설: Cloudflare Workers</div>
     </div>
   </div>
   <div class="set-sec">
@@ -451,9 +442,9 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 
 <script>
 /* ════════════════════════════════════════
-   1. 성경 66권 절 수 데이터 (KRV 정확값)
+   1. 성경 66권 절 수 데이터 (KRV)
 ════════════════════════════════════════ */
-const VC = {
+const VC = { /* (사용자 코드 그대로) */ 
   gen:[31,25,24,26,32,22,24,22,29,32,32,20,18,24,21,16,27,33,38,18,34,24,20,67,34,35,46,22,35,43,55,32,20,31,29,43,36,30,23,23,57,38,34,34,28,34,31,22,33,26],
   exo:[22,25,22,31,23,30,25,32,35,29,10,51,22,31,27,36,16,27,25,26,36,31,33,18,40,37,21,43,46,38,18,35,23,35,35,38,29,31,43,38],
   lev:[17,16,17,35,19,30,38,36,24,20,47,8,59,57,33,34,16,30,24,16,34,4,24,16,24,5,26,5,6,30],
@@ -551,14 +542,14 @@ const S={
   book:null, chapter:null, verse:null,
   cache:{},
   bookmarks:JSON.parse(localStorage.getItem('bm')||'[]'),
-  workerUrl: 'worker.hdh1231.workers.dev',   // ← 배포 시 실제 주소로 교체
-  // 뷰 히스토리 스택 (뒤로가기용)
-  history:[],   // 'home'|'chapter'|'verse'|'read'
+
+  // ✅ 여기만 네 Worker 주소로 바꾸면 됨
+  // 예: https://your-worker-name.your-subdomain.workers.dev
+  workerUrl: 'https://bible-ai-worker.username.workers.dev',
+
+  history:[],
 };
 
-/* ════════════════════════════════════════
-   4. 뷰 관리 + 히스토리
-════════════════════════════════════════ */
 const VIEWS={home:'vHome',chapter:'vChapter',verse:'vVerse',read:'vRead'};
 
 function showView(name, pushHistory=true){
@@ -567,7 +558,6 @@ function showView(name, pushHistory=true){
 
   if(pushHistory && S.history[S.history.length-1]!==name) S.history.push(name);
 
-  // 헤더 업데이트
   const hdrTitle=document.getElementById('hdrTitle');
   const hdrAi=document.getElementById('hdrAiBtn');
   const btnBack=document.getElementById('btnBack');
@@ -578,7 +568,7 @@ function showView(name, pushHistory=true){
     hdrTitle.textContent='✝ 말씀';
     hdrTitle.className='hdr-title logo-mode';
     hdrAi.style.display='none';
-    S.history=['home']; // 홈에서 스택 리셋
+    S.history=['home'];
     btnBack.disabled=true;
   } else if(name==='chapter'){
     hdrTitle.textContent=S.book.name;
@@ -600,13 +590,12 @@ function goBack(){
   S.history.pop();
   const prev=S.history[S.history.length-1];
   showView(prev, false);
-  // 뷰 별 내용 복원
   if(prev==='chapter') renderChapters();
   if(prev==='verse') renderVerseNums(VC[S.book.id][S.chapter-1]);
 }
 
 /* ════════════════════════════════════════
-   5. 책 목록
+   4. 책 목록
 ════════════════════════════════════════ */
 function renderBooks(){
   const grid=document.getElementById('bookGrid');
@@ -633,9 +622,6 @@ function goBook(bk){
   showView('chapter');
 }
 
-/* ════════════════════════════════════════
-   6. 장 목록
-════════════════════════════════════════ */
 function renderChapters(){
   const total=VC[S.book.id].length;
   document.getElementById('chGrid').innerHTML=
@@ -658,9 +644,6 @@ function goChapter(ch, targetVerse=null){
   }
 }
 
-/* ════════════════════════════════════════
-   7. 절 번호 목록
-════════════════════════════════════════ */
 function renderVerseNums(count){
   document.getElementById('vGrid').innerHTML=
     Array.from({length:count},(_,i)=>`<button class="v-btn" data-v="${i+1}">${i+1}</button>`).join('');
@@ -670,29 +653,12 @@ function renderVerseNums(count){
 }
 
 /* ════════════════════════════════════════
-   8. 본문 로드 + 읽기
+   5. 본문 로드
 ════════════════════════════════════════ */
 async function fetchCh(bookId,ch){
   const key=`${bookId}_${ch}`;
   if(S.cache[key]) return S.cache[key];
   const idx=BOOKS.findIndex(b=>b.id===bookId)+1;
-
-  // Worker를 통해 가져오기 (CORS 우회)
-  const workerUrl=S.workerUrl;
-  if(workerUrl && workerUrl!=='worker.hdh1231.workers.dev'){
-    try{
-      const r=await fetch(`${workerUrl}/bible?book=${idx}&chapter=${ch}`);
-      if(!r.ok) throw new Error('worker err');
-      const data=await r.json();
-      if(data.verses && data.verses.length){
-        S.cache[key]=data.verses; return data.verses;
-      }
-    }catch(e){
-      console.warn('Worker 성경 로드 실패, 직접 시도:', e);
-    }
-  }
-
-  // 직접 호출 폴백
   try{
     const r=await fetch(`https://api.getbible.net/v2/korean/${idx}/${ch}.json`);
     if(!r.ok) throw new Error('net');
@@ -701,14 +667,13 @@ async function fetchCh(bookId,ch){
     S.cache[key]=verses; return verses;
   }catch{
     const n=VC[bookId][ch-1];
-    return Array.from({length:n},(_,i)=>`(${i+1}절 — 본문을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.)`);
+    return Array.from({length:n},(_,i)=>`(${i+1}절 — 네트워크 오류. 인터넷 연결을 확인하세요.)`);
   }
 }
 
 async function loadAndRead(ch, targetVerse){
   S.chapter=ch; S.verse=targetVerse;
 
-  // 헤더 즉시 업데이트
   document.getElementById('hdrTitle').textContent=`${S.book.name} ${ch}장`;
 
   showView('read');
@@ -723,13 +688,13 @@ async function loadAndRead(ch, targetVerse){
   renderVerses(verses, targetVerse);
 
   setTimeout(()=>{
-    const el=document.querySelector(`.verse-row[data-v="${targetVerse}"]`);
+    const el=document.querySelector(\`.verse-row[data-v="\${targetVerse}"]\`);
     if(el){el.scrollIntoView({behavior:'smooth',block:'center'});applyDim(targetVerse);}
   },80);
 }
 
 /* ════════════════════════════════════════
-   9. 절 렌더
+   6. 절 렌더/북마크
 ════════════════════════════════════════ */
 function isBm(v){return S.bookmarks.some(b=>b.bid===S.book.id&&b.ch===S.chapter&&b.v===v)}
 
@@ -738,7 +703,7 @@ function renderVerses(verses, hl){
     const v=i+1, bm=isBm(v);
     return `<div class="verse-row${v===hl?' hl':''}" data-v="${v}">
       <span class="vn">${v}</span>
-      <span class="vt">${text}</span>
+      <span class="vt">${escapeHTML(text)}</span>
       <div class="v-acts">
         <button class="v-act-btn${bm?' bm-on':''}" data-act="bm" data-v="${v}">🔖 북마크</button>
         <button class="v-act-btn" data-act="ai" data-v="${v}">✨ AI 해설</button>
@@ -761,9 +726,6 @@ function renderVerses(verses, hl){
   });
 }
 
-/* ════════════════════════════════════════
-   10. 하이라이트 / Dim
-════════════════════════════════════════ */
 function applyDim(tv){
   const rows=document.querySelectorAll('.verse-row');
   rows.forEach(r=>parseInt(r.dataset.v)!==tv&&r.classList.add('dim'));
@@ -776,7 +738,7 @@ function applyDim(tv){
 }
 function highlightV(v){
   document.querySelectorAll('.verse-row').forEach(r=>r.classList.remove('hl','dim'));
-  const r=document.querySelector(`.verse-row[data-v="${v}"]`);
+  const r=document.querySelector(\`.verse-row[data-v="\${v}"]\`);
   if(r) r.classList.add('hl');
   S.verse=v;
 }
@@ -786,9 +748,6 @@ function updateNavBtns(){
   document.getElementById('nextBtn').disabled=S.chapter>=total;
 }
 
-/* ════════════════════════════════════════
-   11. 이전/다음 장
-════════════════════════════════════════ */
 async function changeChapter(delta){
   const newCh=S.chapter+delta;
   const total=VC[S.book.id].length;
@@ -808,14 +767,10 @@ async function changeChapter(delta){
 
   const verses=await fetchCh(S.book.id,newCh);
   renderVerses(verses,1);
-  // 히스토리에 현재 장 업데이트
   S.history=S.history.filter(v=>v!=='read');
   S.history.push('read');
 }
 
-/* ════════════════════════════════════════
-   12. 북마크
-════════════════════════════════════════ */
 function toggleBm(v,btn){
   const idx=S.bookmarks.findIndex(b=>b.bid===S.book.id&&b.ch===S.chapter&&b.v===v);
   if(idx>=0){
@@ -837,7 +792,7 @@ function renderBm(){
       <div class="bm-ico">🔖</div>
       <div style="flex:1;min-width:0">
         <div class="bm-ref">${b.bookName} ${b.ch}:${b.v}</div>
-        <div class="bm-txt">${b.text}</div>
+        <div class="bm-txt">${escapeHTML(b.text)}</div>
       </div>
       <button class="bm-del" data-i="${i}">✕</button>
     </div>`).join('');
@@ -855,7 +810,7 @@ function renderBm(){
 }
 
 /* ════════════════════════════════════════
-   13. AI 시트 — 스토리 중심 프롬프트
+   7. AI 시트 (Worker /ai)
 ════════════════════════════════════════ */
 async function openAiSheet(type,bookObj=null,vNum=null){
   const sheet=document.getElementById('aiSheet');
@@ -867,56 +822,70 @@ async function openAiSheet(type,bookObj=null,vNum=null){
   const STORY_SYSTEM=`당신은 성경 이야기 안내자입니다.
 교리적 해석이나 신앙적 판단은 절대 하지 않습니다.
 오직 스토리, 역사, 언어, 문화적 관점에서 설명합니다.
-다음에 집중합니다:
-- 등장인물이 누구인지, 어떤 사람인지
-- 어떤 사건이 일어났는지, 왜 일어났는지
-- 지명이 어디인지, 어떤 곳인지
-- 어려운 단어나 표현이 무슨 뜻인지
-- 당시 시대적·문화적 배경
-모든 답변은 한국어로, 이해하기 쉬운 말로 작성합니다.`;
+- 등장인물이 누구인지
+- 어떤 사건이 일어났는지
+- 지명이 어디인지
+- 단어나 표현 뜻
+- 시대적·문화적 배경
+모든 답변은 한국어로, 쉬운 말로 작성합니다.`;
 
   let prompt='';
   if(type==='book'){
     title.textContent=`${bookObj.name} 이야기`;
     badge.textContent='권 전체 스토리 안내';
-    prompt=`성경 "${bookObj.name}"에 대해 스토리 관점에서 안내해주세요.\n\n다음 항목으로 설명해주세요:\n1. 이 책은 언제, 어디서, 누구에 관한 이야기인가요?\n2. 주요 등장인물은 누구인가요?\n3. 어떤 사건들이 일어나나요? (핵심 줄거리)\n4. 이 책에 자주 나오는 어려운 지명이나 단어는 무엇인가요?\n\n교리나 신앙 해석은 하지 말고, 이야기 자체로만 설명해주세요. 400자 이내로 간결하게.`;
+    prompt=`성경 "${bookObj.name}"에 대해 스토리 관점에서 안내해주세요.
+1) 언제/어디/누구 이야기?
+2) 주요 인물
+3) 핵심 사건 줄거리
+4) 어려운 지명/단어
+교리 해석은 하지 말고 400자 이내.`;
   }else if(type==='chapter'){
     title.textContent=`${S.book.name} ${S.chapter}장`;
     badge.textContent='장 스토리 안내';
-    prompt=`성경 개역한글 ${S.book.name} ${S.chapter}장의 이야기를 안내해주세요.\n\n다음 항목으로 설명해주세요:\n1. 이 장에서 어떤 사건이 일어나나요?\n2. 주요 인물은 누구이며, 어떤 역할인가요?\n3. 나오는 지명이나 어려운 단어는 무슨 뜻인가요?\n\n교리나 신앙 해석은 하지 말고, 이야기로만 설명해주세요. 300자 이내로.`;
+    prompt=`성경 개역성경 ${S.book.name} ${S.chapter}장의 이야기를 안내해주세요.
+1) 무슨 사건?
+2) 주요 인물/역할
+3) 지명/어려운 단어
+교리 해석은 하지 말고 300자 이내.`;
   }else if(type==='verse'){
     const verses=S.cache[`${S.book.id}_${S.chapter}`]||[];
     const text=verses[vNum-1]||'';
     title.textContent=`${S.book.name} ${S.chapter}:${vNum}`;
     badge.textContent='절 스토리·언어 해설';
-    prompt=`성경 개역한글 ${S.book.name} ${S.chapter}장 ${vNum}절을 해설해주세요.\n\n구절: "${text}"\n\n다음 항목으로 설명해주세요:\n1. 이 구절에 나오는 인물이나 대상은 누구/무엇인가요?\n2. 어떤 상황에서 한 말 또는 일어난 일인가요?\n3. 어려운 단어나 표현(지명, 고유명사, 고어 등)이 있다면 설명해주세요.\n4. 이 구절 전후 이야기 맥락은 무엇인가요?\n\n교리나 신앙 해석은 하지 말고, 국어·언어·역사적으로만 설명해주세요. 400자 이내로.`;
+    prompt=`성경 개역성경 ${S.book.name} ${S.chapter}장 ${vNum}절을 해설해주세요.
+구절: "${text}"
+1) 인물/대상은 누구/무엇?
+2) 어떤 상황?
+3) 단어/표현 설명
+4) 전후 맥락
+교리 해석은 하지 말고 400자 이내.`;
   }
 
   body.innerHTML=`<div style="display:flex;align-items:center;gap:10px;color:var(--text3);padding:8px 0"><div class="dots"><span></span><span></span><span></span></div> 분석 중입니다…</div>`;
   sheet.classList.add('on');ov.classList.add('on');
 
-  const result=await callWorker(STORY_SYSTEM, prompt);
+  const result=await callWorkerAI(STORY_SYSTEM, prompt);
   body.innerHTML=
     result.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')+
-    `<div class="sh-disclaimer">⚠️ 이 해설은 교리적·신학적 판단이 아닌 성경 이야기의 스토리·언어·역사적 이해를 돕기 위한 참고 자료입니다. AI가 생성한 내용으로 오류가 있을 수 있습니다.</div>`;
+    `<div class="sh-disclaimer">⚠️ 참고용 해설입니다. AI가 생성한 내용으로 오류가 있을 수 있습니다.</div>`;
 }
 
-async function callWorker(system, prompt){
-  const url=S.workerUrl;
-  if(!url||url==='worker.hdh1231.workers.dev'){
-    return '⚠️ <strong>Worker URL이 설정되지 않았습니다.</strong><br><br>배포 가이드를 참고하여 Cloudflare Worker를 배포하고, worker.js의 <code>worker.hdh1231.workers.dev</code> 부분을 실제 주소로 교체하세요.';
+async function callWorkerAI(system, prompt){
+  const base=S.workerUrl;
+  if(!base || base==='https://bible-ai-worker.username.workers.dev'){
+    return '⚠️ <strong>Worker URL이 아직 설정되지 않았습니다.</strong><br><br>HTML의 <code>workerUrl</code> 값을 네 Worker 주소로 바꿔주세요.';
   }
   try{
-    const r=await fetch(url,{
+    const r=await fetch(base.replace(/\/$/,'') + '/ai',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({system,prompt})
     });
-    if(!r.ok) throw new Error(`HTTP ${r.status}`);
     const d=await r.json();
-    return d.text||d.error||'응답을 받지 못했습니다.';
+    if(!r.ok || !d.ok) throw new Error(d.error || `HTTP ${r.status}`);
+    return d.text || '응답을 받지 못했습니다.';
   }catch(e){
-    return `❌ 연결 실패: ${e.message}<br><br>Worker가 실행 중인지 확인하세요.`;
+    return `❌ 연결 실패: ${escapeHTML(e.message)}`;
   }
 }
 
@@ -926,39 +895,70 @@ function closeSheet(){
 }
 
 /* ════════════════════════════════════════
-   14. 검색
+   8. 검색 (✅ 전체 성경 검색: Worker /search)
 ════════════════════════════════════════ */
-function doSearch(q){
-  if(!q.trim()) return;
+async function doSearch(q){
+  q = (q||'').trim();
+  if(!q) return;
+
   const res=document.getElementById('sResults');
-  const found=[];
-  for(const [key,verses] of Object.entries(S.cache)){
-    const [bid,ch]=key.split('_');
-    const bk=BOOKS.find(b=>b.id===bid);
-    if(!bk) continue;
-    verses.forEach((text,i)=>{
-      if(text.includes(q)) found.push({bk,ch:+ch,v:i+1,text});
-    });
-  }
-  if(!found.length){
-    res.innerHTML=`<div style="padding:30px;text-align:center;color:var(--text3);font-size:14px">검색 결과 없음<br><small style="font-size:12px;margin-top:6px;display:block">열어본 책의 본문에서만 검색됩니다</small></div>`;
+  res.innerHTML = `<div style="padding:28px;text-align:center;color:var(--text3);font-size:14px">
+    <div class="dots" style="justify-content:center"><span></span><span></span><span></span></div>
+    <div style="margin-top:10px">전체 성경에서 검색 중…</div>
+  </div>`;
+
+  const base=S.workerUrl;
+  if(!base || base==='https://bible-ai-worker.username.workers.dev'){
+    res.innerHTML=`<div style="padding:30px;text-align:center;color:var(--text3);font-size:14px">
+      Worker URL이 설정되지 않았습니다.<br>
+      <small style="font-size:12px;display:block;margin-top:6px">HTML의 workerUrl 값을 네 Worker 주소로 바꿔주세요.</small>
+    </div>`;
     return;
   }
-  const list=found.slice(0,50);
-  res.innerHTML=list.map((r,i)=>`
-    <div class="s-item" data-i="${i}">
-      <div class="s-ref">${r.bk.name} ${r.ch}:${r.v}</div>
-      <div class="s-txt">${r.text.replace(q,`<mark>${q}</mark>`)}</div>
-    </div>`).join('');
-  res.querySelectorAll('.s-item').forEach((item,i)=>{
-    item.addEventListener('click',()=>{
-      goBook(list[i].bk);goChapter(list[i].ch,list[i].v);switchTab('bible');
+
+  try{
+    const url = base.replace(/\/$/,'') + `/search?q=${encodeURIComponent(q)}&limit=50`;
+    const r=await fetch(url);
+    const d=await r.json();
+    if(!r.ok || !d.ok) throw new Error(d.error || `HTTP ${r.status}`);
+
+    const list = d.results || [];
+    if(!list.length){
+      res.innerHTML=`<div style="padding:30px;text-align:center;color:var(--text3);font-size:14px">
+        검색 결과 없음<br>
+        <small style="font-size:12px;margin-top:6px;display:block">다른 단어로 다시 검색해보세요</small>
+      </div>`;
+      return;
+    }
+
+    res.innerHTML = list.map((it,i)=>`
+      <div class="s-item" data-i="${i}">
+        <div class="s-ref">${escapeHTML(it.bookName)} ${it.ch}:${it.v}</div>
+        <div class="s-txt">${highlightHTML(it.text, q)}</div>
+      </div>
+    `).join('');
+
+    res.querySelectorAll('.s-item').forEach((item,i)=>{
+      item.addEventListener('click',()=>{
+        const hit=list[i];
+        const bk=BOOKS.find(b=>b.id===hit.bid) || BOOKS.find(b=>b.name===hit.bookName);
+        if(!bk) return;
+        goBook(bk);
+        goChapter(hit.ch, hit.v);
+        switchTab('bible');
+      });
     });
-  });
+
+  }catch(e){
+    res.innerHTML=`<div style="padding:30px;text-align:center;color:var(--text3);font-size:14px">
+      검색 실패<br>
+      <small style="font-size:12px;margin-top:6px;display:block">${escapeHTML(e.message)}</small>
+    </div>`;
+  }
 }
 
 /* ════════════════════════════════════════
-   15. 탭 전환
+   9. 탭/토스트/유틸
 ════════════════════════════════════════ */
 function switchTab(tab){
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
@@ -967,31 +967,40 @@ function switchTab(tab){
   if(tab==='bookmarks') renderBm();
 }
 
-/* ════════════════════════════════════════
-   16. 토스트
-════════════════════════════════════════ */
 function toast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg;t.classList.add('on');
   setTimeout(()=>t.classList.remove('on'),2200);
 }
 
+function escapeHTML(s){
+  return (s||'').toString()
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;')
+    .replaceAll("'","&#039;");
+}
+
+function highlightHTML(text, q){
+  const safe = escapeHTML(text);
+  const safeQ = escapeHTML(q);
+  // 너무 정교한 regex는 느려질 수 있어 단순 분할 방식 사용
+  return safe.split(safeQ).join(`<mark>${safeQ}</mark>`);
+}
+
 /* ════════════════════════════════════════
-   17. 초기화
+   10. 초기화
 ════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded',()=>{
   S.history=['home'];
   renderBooks();
 
-  // 홈 버튼
   document.getElementById('btnHome').addEventListener('click',()=>{
     switchTab('bible');showView('home');
   });
-
-  // 뒤로가기
   document.getElementById('btnBack').addEventListener('click',goBack);
 
-  // 구약/신약
   document.querySelectorAll('.t-btn').forEach(btn=>{
     btn.addEventListener('click',()=>{
       document.querySelectorAll('.t-btn').forEach(b=>b.classList.remove('on'));
@@ -999,34 +1008,29 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
   });
 
-  // 탭
   document.querySelectorAll('.tab').forEach(btn=>{
     btn.addEventListener('click',()=>switchTab(btn.dataset.tab));
   });
   document.getElementById('btnSearch').addEventListener('click',()=>switchTab('search'));
   document.getElementById('btnBm').addEventListener('click',()=>switchTab('bookmarks'));
 
-  // AI 버튼들
   document.getElementById('bookAiBtn').addEventListener('click',()=>openAiSheet('book',S.book));
   document.getElementById('chapAiBtn').addEventListener('click',()=>openAiSheet('chapter'));
   document.getElementById('hdrAiBtn').addEventListener('click',()=>openAiSheet('chapter'));
 
-  // 이전/다음 장 ← 핵심 수정: changeChapter() 호출
   document.getElementById('prevBtn').addEventListener('click',()=>changeChapter(-1));
   document.getElementById('nextBtn').addEventListener('click',()=>changeChapter(1));
 
-  // AI 시트 닫기
   document.getElementById('shClose').addEventListener('click',closeSheet);
   document.getElementById('overlay').addEventListener('click',closeSheet);
 
-  // 검색
   document.getElementById('sGo').addEventListener('click',()=>doSearch(document.getElementById('sIn').value));
   document.getElementById('sIn').addEventListener('keypress',e=>{if(e.key==='Enter')doSearch(e.target.value);});
 
-  // 북마크 전체 삭제
   document.getElementById('clearBmBtn').addEventListener('click',()=>{
     if(confirm('북마크를 전부 삭제할까요?')){
       S.bookmarks=[];localStorage.removeItem('bm');toast('북마크 전체 삭제됨');
+      if(document.getElementById('bookmarks-page').classList.contains('on')) renderBm();
     }
   });
 });
