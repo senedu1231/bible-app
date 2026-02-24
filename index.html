@@ -462,7 +462,7 @@ const S={
   book:null, chapter:null, verse:null,
   cache:{},
   bookmarks:JSON.parse(localStorage.getItem('bm')||'[]'),
-  workerUrl: '%%WORKER_URL%%',   // ← 배포 시 Cloudflare Worker 주소로 교체
+  workerUrl: 'https://bible-ai-worker.hdh1231.workers.dev',,   // ← 배포 시 Cloudflare Worker 주소로 교체
   history:[],
 };
 
