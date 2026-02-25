@@ -8,8 +8,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Serif+KR:wght@300;400;600&family=Noto+Sans+KR:wght@300;400;700&family=Black+Han+Sans&display=swap" rel="stylesheet">
 <style>
 
-/* ══ 라이트 ══ */
+/* ══ 기본 변수 & 라이트 모드 ══ */
 :root, [data-theme="light"] {
+  --vt-size:    17px; /* 본문 기본 글씨 크기 변수 추가! */
+  
   --bg:         #fdf9f2;
   --bg2:        #f5eee0;
   --surface:    #ffffff;
@@ -37,7 +39,7 @@
   --toggle-on:  #c8a060;
 }
 
-/* ══ 다크 ══ */
+/* ══ 다크 모드 ══ */
 [data-theme="dark"] {
   --bg:         #111009;
   --bg2:        #1c1a14;
@@ -79,14 +81,14 @@ body {
   position:sticky; top:0; z-index:200;
   background:var(--hdr-bg); backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border2);
-  height:58px; display:flex; align-items:center; padding:0 13px; gap:8px;
+  height:58px; display:flex; align-items:center; padding:0 10px; gap:6px; /* 모바일 맞춤 간격 축소 */
 }
 .hdr-icon-btn {
-  width:38px; height:38px; border-radius:11px;
+  width:36px; height:36px; border-radius:11px; /* 사이즈 약간 축소 */
   border:1px solid var(--border2); background:var(--surface);
   color:var(--text2); cursor:pointer; flex-shrink:0;
   display:flex; align-items:center; justify-content:center;
-  font-size:17px; transition:all .14s;
+  font-size:16px; transition:all .14s;
 }
 .hdr-icon-btn:active { transform:scale(0.87); }
 
@@ -111,30 +113,43 @@ body {
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:none;
 }
 
+/* 요약 버튼 */
 .hdr-ai-btn {
   display:none; align-items:center; gap:4px;
-  padding:7px 11px; border-radius:20px;
-  background:var(--gold-dim); border:1px solid var(--border);
-  color:var(--gold); font-family:'Jua',sans-serif;
+  padding:6px 10px; border-radius:18px;
+  background:var(--surface); border:1.5px solid var(--gold);
+  color:var(--gold); font-family:'Jua',sans-serif; font-weight:600;
   font-size:13px; cursor:pointer; white-space:nowrap; transition:all .14s;
 }
-.hdr-ai-btn:active { transform:scale(0.92); }
+.hdr-ai-btn:active { transform:scale(0.92); background:var(--gold-dim); }
+
+/* ━━━ 폰트 크기 조절 버튼 ━━━ */
+.hdr-font-ctrl {
+  display:flex; align-items:center; gap:2px; flex-shrink:0;
+  background:var(--surface2); border:1px solid var(--border2);
+  border-radius:12px; padding:2px;
+}
+.hdr-font-btn {
+  background:none; border:none; color:var(--text2);
+  font-family:'Jua',sans-serif; font-size:14px;
+  padding:4px 8px; cursor:pointer; border-radius:10px; transition:all .14s;
+}
+.hdr-font-btn:active { background:var(--surface); box-shadow:0 2px 4px rgba(0,0,0,.05); }
 
 /* 테마 토글 */
 .theme-toggle { display:flex; align-items:center; gap:6px; flex-shrink:0; cursor:pointer; }
-.theme-label { font-family:'Jua',sans-serif; font-size:12px; color:var(--text3); white-space:nowrap; }
 .toggle-pill {
-  width:54px; height:27px; border-radius:14px;
+  width:50px; height:26px; border-radius:14px;
   background:var(--pill-bg); border:1px solid var(--border2);
   position:relative; display:flex; align-items:center; padding:0 4px; justify-content:space-between;
 }
-.toggle-pill-icon { font-size:13px; z-index:1; pointer-events:none; }
+.toggle-pill-icon { font-size:12px; z-index:1; pointer-events:none; }
 .toggle-knob {
-  position:absolute; width:21px; height:21px; border-radius:50%;
+  position:absolute; width:20px; height:20px; border-radius:50%;
   background:var(--gold); box-shadow:0 2px 6px rgba(0,0,0,.25);
-  top:3px; left:3px; transition:transform .32s cubic-bezier(.34,1.5,.64,1);
+  top:2px; left:2px; transition:transform .32s cubic-bezier(.34,1.5,.64,1);
 }
-[data-theme="dark"] .toggle-knob { transform:translateX(27px); }
+[data-theme="dark"] .toggle-knob { transform:translateX(24px); }
 
 /* ━━━ 탭바 ━━━ */
 .tabbar {
@@ -182,13 +197,15 @@ body {
 
 /* ━━━ 구약/신약 탭 버튼 ━━━ */
 .sect-toggle-row {
-  display:flex; gap:8px; padding:14px 12px 0;
+  display:flex; gap:10px; padding:18px 14px 0;
 }
 .sect-toggle-btn {
   flex:1; display:flex; align-items:center; justify-content:center;
-  padding:11px 14px; border-radius:12px;
+  padding:16px 14px;
+  border-radius:14px;
   background:var(--surface); border:1.5px solid var(--border2);
-  color:var(--text2); font-family:'Jua',sans-serif; font-size:15px;
+  color:var(--text2); font-family:'Jua',sans-serif; 
+  font-size:18px;
   cursor:pointer; transition:all .2s; user-select:none;
 }
 .sect-toggle-btn.open {
@@ -210,7 +227,7 @@ body {
 /* ━━━ 책 그리드 ━━━ */
 .book-grid {
   display:grid; grid-template-columns:repeat(3,1fr);
-  gap:7px; padding:10px 12px 4px;
+  gap:7px; padding:14px 14px 4px;
 }
 .book-card {
   background:var(--surface); border:1.5px solid var(--border2);
@@ -231,12 +248,12 @@ body {
 
 /* ━━━ 책 요약 버튼 ━━━ */
 .bk-summary-btn {
-  width:100%; padding:14px 20px; border-radius:14px;
-  background:var(--gold-dim); border:1px solid var(--border);
-  color:var(--gold); font-family:'Jua',sans-serif; font-size:15px;
+  width:100%; padding:16px 20px; border-radius:14px;
+  background:var(--surface); border:1.5px solid var(--gold);
+  color:var(--gold); font-family:'Jua',sans-serif; font-size:16px; font-weight:600;
   cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all .14s;
 }
-.bk-summary-btn:active { transform:scale(0.97); }
+.bk-summary-btn:active { transform:scale(0.97); background:var(--gold-dim); }
 
 /* ━━━ 장 그리드 ━━━ */
 .ch-grid {
@@ -289,7 +306,9 @@ body {
 }
 .vt {
   font-family:'Noto Serif KR',serif;
-  font-size:17px; line-height:1.95; color:var(--text); word-break:keep-all; flex:1;
+  font-size:var(--vt-size); /* 변수로 실시간 조절되게 변경! */
+  line-height:1.95; color:var(--text); word-break:keep-all; flex:1;
+  transition:font-size 0.2s; /* 부드럽게 커지게 */
 }
 
 /* 절 액션 — 오른쪽 정렬, 구분선 없음 */
@@ -306,10 +325,13 @@ body {
   border:1.5px solid var(--border); background:var(--surface2); color:var(--text2);
 }
 .va-btn:active { transform:scale(0.91); }
+
+/* 본문 AI 해설 버튼 */
 .va-btn-ai {
-  background:var(--gold); border-color:var(--gold);
-  color:#1a0e00; box-shadow:0 3px 10px var(--gold-glow);
+  background:var(--surface); border:1.5px solid var(--gold);
+  color:var(--gold); font-weight:600; 
 }
+.va-btn-ai:active { background:var(--gold-dim); }
 
 /* ━━━ 하단 이전/다음 ━━━ */
 .ch-nav {
@@ -344,7 +366,11 @@ body {
 .bm-top { display:flex; justify-content:space-between; align-items:flex-start; }
 .bm-title { font-family:'Jua',sans-serif; color:var(--gold); font-size:14px; cursor:pointer; }
 .bm-del { background:none; border:none; color:var(--text3); cursor:pointer; font-size:17px; padding:2px 4px; }
-.bm-verse-text { font-family:'Noto Serif KR',serif; font-size:15px; line-height:1.85; color:var(--text2); word-break:keep-all; }
+.bm-verse-text { 
+  font-family:'Noto Serif KR',serif; 
+  font-size:calc(var(--vt-size) - 2px); /* 본문 크기에 비례 */
+  line-height:1.85; color:var(--text2); word-break:keep-all; transition:font-size 0.2s;
+}
 .bm-empty { text-align:center; padding:80px 20px; color:var(--text3); font-family:'Jua',sans-serif; font-size:16px; line-height:2; }
 
 /* ━━━ AI 시트 ━━━ */
@@ -368,7 +394,11 @@ body {
   font-size:50px; font-family:serif; color:var(--gold); opacity:.2; line-height:1; pointer-events:none;
 }
 .ai-verse-ref { font-family:'Jua',sans-serif; font-size:12px; color:var(--gold); margin-bottom:6px; }
-.ai-verse-text { font-family:'Noto Serif KR',serif; font-size:14px; line-height:1.8; color:var(--text2); word-break:keep-all; }
+.ai-verse-text { 
+  font-family:'Noto Serif KR',serif; 
+  font-size:calc(var(--vt-size) - 3px); /* 본문 크기에 비례 */
+  line-height:1.8; color:var(--text2); word-break:keep-all; transition:font-size 0.2s;
+}
 
 .ai-header { padding:12px 18px 0; display:flex; align-items:center; gap:8px; flex-shrink:0; }
 .ai-header-icon {
@@ -384,7 +414,11 @@ body {
 }
 .ai-divider { height:1px; background:var(--border2); margin:12px 18px 0; flex-shrink:0; }
 .ai-body { padding:16px 18px 24px; overflow-y:auto; flex:1; }
-.ai-text { font-size:16px; line-height:1.95; color:var(--text2); word-break:keep-all; font-family:'Noto Sans KR',sans-serif; }
+.ai-text { 
+  font-family:'Noto Sans KR',sans-serif;
+  font-size:calc(var(--vt-size) - 1px); /* 본문 크기에 비례 */
+  line-height:1.95; color:var(--text2); word-break:keep-all; transition:font-size 0.2s;
+}
 .ai-text strong { color:var(--gold); font-weight:700; }
 
 .typing { display:inline-flex; gap:5px; align-items:center; padding:10px 0; }
@@ -415,9 +449,15 @@ body {
     <span class="hdr-logo-text">말씀</span>
   </div>
   <div class="hdr-crumb" id="hdrCrumb"></div>
-  <button class="hdr-ai-btn" id="hdrAiBtn" onclick="openChapterAi()">✨ 장 요약</button>
+  
+  <button class="hdr-ai-btn" id="hdrAiBtn" onclick="openChapterAi()">✨ 요약</button>
+  
+  <div class="hdr-font-ctrl">
+    <button class="hdr-font-btn" onclick="changeFontSize(-1)">A-</button>
+    <button class="hdr-font-btn" onclick="changeFontSize(1)">A+</button>
+  </div>
+
   <div class="theme-toggle" onclick="toggleTheme()">
-    <span class="theme-label" id="themeLabel">라이트</span>
     <div class="toggle-pill">
       <span class="toggle-pill-icon">☀️</span>
       <span class="toggle-pill-icon">🌙</span>
@@ -445,7 +485,7 @@ body {
 
       <div class="sect-toggle-row" style="padding-bottom:0;">
         <button class="sect-toggle-btn open" id="btn-old" onclick="toggleSect('old')">
-          <span>📖 구약 39권</span>
+          <span>📜 구약 39권</span>
         </button>
         <button class="sect-toggle-btn" id="btn-new" onclick="toggleSect('new')">
           <span>✝️ 신약 27권</span>
@@ -483,7 +523,9 @@ body {
     </div>
   </div>
 
-</div><div id="bookmarks-page" class="page">
+</div>
+
+<div id="bookmarks-page" class="page">
   <div id="bmWrap" style="padding:16px"></div>
 </div>
 
@@ -534,7 +576,7 @@ const BOOKS = [
   {id:"mat",name:"마태복음", t:"new",c:28},{id:"mrk",name:"마가복음", t:"new",c:16},
   {id:"luk",name:"누가복음", t:"new",c:24},{id:"jhn",name:"요한복음", t:"new",c:21},
   {id:"act",name:"사도행전", t:"new",c:28},{id:"rom",name:"로마서",   t:"new",c:16},
-  {id:"1co",name:"고린전서",t:"new",c:16},{id:"2co",name:"고린도후서",t:"new",c:13},
+  {id:"1co",name:"고린도전서",t:"new",c:16},{id:"2co",name:"고린도후서",t:"new",c:13},
   {id:"gal",name:"갈라디아서",t:"new",c:6},{id:"eph",name:"에베소서", t:"new",c:6},
   {id:"php",name:"빌립보서", t:"new",c:4}, {id:"col",name:"골로새서",  t:"new",c:4},
   {id:"1th",name:"데살로니가전서",t:"new",c:5},{id:"2th",name:"데살로니가후서",t:"new",c:3},
@@ -549,41 +591,44 @@ const BOOKS = [
 
 let S = {view:'home', t:'old', bk:null, ch:1, hist:['home'], cache:{}};
 let selIdx = -1;
-let theme = localStorage.getItem('bible_theme') || 'light';
 
-// 구약/신약 열림 상태 — 기본값: 구약은 열림(true), 신약은 닫힘(false)
+/* ━━━ 로컬 설정 불러오기 ━━━ */
+let theme = localStorage.getItem('bible_theme') || 'light';
+let vSize = parseInt(localStorage.getItem('bible_vsize')) || 17;
+
 let sectOpen = {old: true, new: false};
 
-/* ━━━ 섹션 토글 (탭 방식) ━━━ */
-function toggleSect(t) {
-  // 클릭한 탭이 이미 열려있으면 아무것도 안 함
-  if (sectOpen[t]) return; 
+/* ━━━ 폰트 크기 조절 ━━━ */
+function applyFontSize(size) {
+  vSize = Math.max(12, Math.min(size, 34)); // 최소 12px ~ 최대 34px 제한
+  document.documentElement.style.setProperty('--vt-size', vSize + 'px');
+  localStorage.setItem('bible_vsize', vSize);
+}
+function changeFontSize(delta) {
+  applyFontSize(vSize + delta);
+}
 
+function toggleSect(t) {
+  if (sectOpen[t]) return; 
   const other = t === 'old' ? 'new' : 'old';
   
-  // 상태 업데이트
   sectOpen[t] = true;
   sectOpen[other] = false;
 
-  // 누른 쪽 열기
   document.getElementById('btn-' + t).classList.add('open');
   document.getElementById('sect-' + t).classList.add('open');
 
-  // 반대쪽 닫기
   document.getElementById('btn-' + other).classList.remove('open');
   document.getElementById('sect-' + other).classList.remove('open');
 }
 
-/* ━━━ 테마 ━━━ */
 function applyTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
-  document.getElementById('themeLabel').innerText = t === 'light' ? '라이트' : '다크';
   localStorage.setItem('bible_theme', t);
   theme = t;
 }
 function toggleTheme() { applyTheme(theme === 'light' ? 'dark' : 'light'); }
 
-/* ━━━ 탭 ━━━ */
 function switchTab(t) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
@@ -602,7 +647,6 @@ function switchTab(t) {
   }
 }
 
-/* ━━━ 책 목록 렌더 ━━━ */
 function renderBooks() {
   ['old', 'new'].forEach(t => {
     document.getElementById('bookGrid' + (t === 'old' ? 'Old' : 'New')).innerHTML =
@@ -614,7 +658,6 @@ function renderBooks() {
   });
 }
 
-/* ━━━ 장 목록 ━━━ */
 function renderChList() {
   if (!S.bk) return;
   document.getElementById('chGrid').innerHTML =
@@ -636,7 +679,6 @@ function goRead(ch) {
   renderView(); updateProgress(); loadVerses();
 }
 
-/* ━━━ 진행 바 ━━━ */
 function updateProgress() {
   if (!S.bk) return;
   const pct = Math.round((S.ch / S.bk.c) * 100);
@@ -645,7 +687,6 @@ function updateProgress() {
   document.getElementById('progressPct').innerText = pct + '%';
 }
 
-/* ━━━ 절 선택 ━━━ */
 function selectVerse(idx) {
   const same = selIdx === idx; clearSel();
   if (same) return;
@@ -657,7 +698,6 @@ function clearSel() {
   document.querySelectorAll('.verse-row').forEach(el => el.classList.remove('hl'));
 }
 
-/* ━━━ 본문 로드 ━━━ */
 async function loadVerses() {
   clearSel();
   const wrap = document.getElementById('versesWrap');
@@ -686,7 +726,6 @@ async function loadVerses() {
   }
 }
 
-/* ━━━ 절 액션 ━━━ */
 function doExplain(idx, e) {
   e.stopPropagation();
   const text = S.cache[`${S.bk.id}_${S.ch}`]?.[idx];
@@ -711,7 +750,6 @@ function doBookmark(idx, e) {
   alert(`${S.bk.name} ${S.ch}:${idx+1} 저장됐어! 🔖`);
 }
 
-/* ━━━ 뷰 렌더 ━━━ */
 function renderView() {
   document.getElementById('vHome').style.display    = S.view==='home'    ? 'block' : 'none';
   document.getElementById('vChapter').style.display = S.view==='chapter' ? 'block' : 'none';
@@ -762,7 +800,6 @@ function changeCh(d) {
   renderView(); updateProgress(); loadVerses();
 }
 
-/* ━━━ 북마크 ━━━ */
 function getBms()   { return JSON.parse(localStorage.getItem('bible_bm')||'[]'); }
 function saveBms(b) { localStorage.setItem('bible_bm', JSON.stringify(b)); }
 function renderBookmarks() {
@@ -781,7 +818,6 @@ function delBm(id) { if(!confirm('이 북마크 삭제할까?'))return; saveBms(
 function clearBms() { if(!confirm('전부 삭제할까?'))return; saveBms([]); renderBookmarks(); }
 function goToBm(bookId, ch) { switchTab('bible'); S.bk=BOOKS.find(b=>b.id===bookId); S.hist=['home','chapter']; goRead(ch); }
 
-/* ━━━ AI ━━━ */
 async function showAi(title, prompt) {
   document.getElementById('overlay').style.display = 'block';
   document.getElementById('aiSheet').classList.add('on');
@@ -813,8 +849,12 @@ function closeAi() {
   document.getElementById('aiSheet').classList.remove('on');
 }
 
-/* ━━━ 초기화 ━━━ */
-window.onload = () => { applyTheme(theme); renderBooks(); renderView(); };
+window.onload = () => { 
+  applyTheme(theme); 
+  applyFontSize(vSize); /* 저장된 폰트 크기 불러오기 */
+  renderBooks(); 
+  renderView(); 
+};
 </script>
 
 </body>
